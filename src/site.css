@@ -35,9 +35,14 @@ tr > td:last-child {
     font-family: monospace;
 }
 
+
 #queryterm {
     font-style: italic;
     padding-top: 0px;
+}
+
+#queryterm > p:first-child {
+    margin-bottom: 0px;
 }
 
 #clear {
