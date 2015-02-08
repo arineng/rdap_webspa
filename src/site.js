@@ -14,7 +14,7 @@
 function makeQueryTermDiv( term, description ) {
   var $queryTerm = $('<div class="container" id="queryterm"/>' );
   $queryTerm.append( $('<p>Query term is "' + term + '".</p>') );
-  $queryTerm.append( $('<p>Query is assumed to be ' + description + '.</p>') );
+  $queryTerm.append( $('<p>Query type is ' + description + '.</p>') );
   $('<div class="progress" />' )
     .append( $('<div class="progress-bar progress-bar-striped active" />')
                   .attr("role","progressbar")
@@ -34,13 +34,26 @@ function clearDivs()
 
 $(document).ready( function() {
 
+  $('#queryTypeRadios').hide();
+
   $('#queryform').submit( function() {
     clearDivs();
-    makeQueryTermDiv( "192.133.133.4", "an IPv4 address" )
+    var queryText = $('#queryText' ).val().trim();
+    var queryType = getQueryType(queryText);
+    makeQueryTermDiv( queryText, queryType.description );
     return false;
   } );
+
+  $('#forceQType').change( function() {
+    if($(this ).is(':checked') ) {
+      $('#queryTypeRadios').show();
+    } else {
+      $('#queryTypeRadios').hide();
+    }
+  });
 
   $('#clear' ).click( function() {
     clearDivs();
   });
+
 });

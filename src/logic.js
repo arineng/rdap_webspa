@@ -60,7 +60,7 @@ QUERYTYPE = {
     }
   },
   CIDR4 : {
-    descritpion : "an IPv4 Network",
+    description : "an IPv4 Network",
     match : function ( queryterm ) {
       var parts = queryterm.split( "/" );
       if( parts.length == 2 &&

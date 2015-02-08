@@ -12,15 +12,70 @@
 
     <div class="container jumbotron" id="querycontainer">
       <h2>RDAP <small>Registration Data Access Protocol</small></h2>
-      <form class="form-inline" id="queryform">
-        <div class="form-group form-group-lg">
+      <form id="queryform">
+        <div class="form-inline form-group form-group-lg">
           <input type="text" class="form-control" id="queryText" placeholder="192.149.149.1">
           <button type="submit" class="btn btn-default btn-lg">Submit</button>
         </div>
+            <p>
+                <small>
+                    Search for IP networks, domain names, AS numbers...
+                </small>
+          <div class="form">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="forceQType"> Force Query Type
+                </label>
+            </div>
+          <div id="queryTypeRadios">
+          <div class="radio">
+              <label>
+                  <input type="radio" name="optionsRadios" id="optionsIP" value="ip">
+                  IPv4 / IPv6 Address or Network in CIDR form
+              </label>
+          </div>
+          <div class="radio">
+              <label>
+                  <input type="radio" name="optionsRadios" id="optionsAutnum" value="Autnum">
+                  Autonomous System Number (a.k.a. "ASN", "autnum")
+              </label>
+          </div>
+          <div class="radio">
+              <label>
+                  <input type="radio" name="optionsRadios" id="optionsDomain" value="Domain" >
+                  Domain name or Reverse DNS Delegation
+              </label>
+          </div>
+          <div class="radio">
+              <label>
+                  <input type="radio" name="optionsRadios" id="optionsDomainSearch" value="Domain" >
+                  A Domain name search
+              </label>
+          </div>
+          <div class="radio">
+              <label>
+                  <input type="radio" name="optionsRadios" id="optionsNameserver" value="Nameserver" >
+                  Fully Qualified DNS Name of a Name Server
+              </label>
+          </div>
+          <div class="radio">
+              <label>
+                  <input type="radio" name="optionsRadios" id="optionsEntityHandle" value="EntityHandle">
+                  Handle or ID for an Entity (e.g. Contact, Organization, POC, Maintainer)
+              </label>
+          </div>
+          <div class="radio">
+              <label>
+                  <input type="radio" name="optionsRadios" id="optionsEntityName" value="EntityName" >
+                  Name of an Entity (e.g. Contact, Organization, POC, Maintainer)
+              </label>
+          </div>
+          </div>
+      </div>
+            </p>
       </form>
-      <p>
-        <small>
-            Search IP networks, domain names, AS numbers...<br>
+      <p id="external_links">
+       <small>
           <a href="https://whois.arin.net/tou.html">ARIN's RDAP Terms of Use</a> |
           <a href="https://www.arin.net/whois/faq.html">RDAP FAQ</a> |
           <a href="https://whois.arin.net/ui">Legacy Whois</a>
@@ -111,5 +166,6 @@
     </footer>
   <script src="lib/js/jquery-1.11.2.min.js"></script>
   <script src="site.js"></script>
+  <script src="logic.js"></script>
   </body>
 </html >

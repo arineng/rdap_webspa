@@ -53,3 +53,10 @@ test("queryTest URL tests", function() {
   equal( QUERYTYPE.AUTNUM.url( "AS10204" ), BASEURL + "autnum/10204", "AUTNUM query URL" );
 });
 
+test("QUERYTYPEs have descriptions", function() {
+  ok( QUERYTYPE.IP4.description, "IP4 description")
+  ok( QUERYTYPE.IP6.description, "IP6 description")
+  ok( QUERYTYPE.CIDR4.description, "CIDR4 description")
+  ok( QUERYTYPE.CIDR6.description, "CIDR6 description")
+  ok( QUERYTYPE.AUTNUM.description, "AUTNUM description")
+});

@@ -55,3 +55,7 @@ tr > td:last-child {
     float: right;
     position: relative;
 }
+
+#external_links {
+    text-align: center;
+}
