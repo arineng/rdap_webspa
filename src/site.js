@@ -3,7 +3,7 @@
  */
 
 /**
- *
+ * This file contains functions for manipulating the web page.
  * Created by anewton on 2/6/15.
  */
 
