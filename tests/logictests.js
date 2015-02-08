@@ -15,10 +15,41 @@ test("getQueryType tests", function() {
   equal( getQueryType( "255.255.255.255" ), QUERYTYPE.IP4, "is IP4" );
   equal( getQueryType( "2001:500:13::" ), QUERYTYPE.IP6, "is IP6" );
   equal( getQueryType( "2001:500:13:FFFF:FFFF:FFFF:FFFF:FFFF" ), QUERYTYPE.IP6, "is IP6" );
+  equal( getQueryType( "192.149.136.136/28" ), QUERYTYPE.CIDR4, "is CIDR4" );
+  equal( getQueryType( "192.149.136.136/32" ), QUERYTYPE.CIDR4, "is CIDR4" );
+  equal( getQueryType( "192.149.136.136/16" ), QUERYTYPE.CIDR4, "is CIDR4" );
+  equal( getQueryType( "192.149.136.136/8" ), QUERYTYPE.CIDR4, "is CIDR4" );
+  equal( getQueryType( "192.149.136.136 /8" ), QUERYTYPE.CIDR4, "is CIDR4" );
+  equal( getQueryType( "192.149.136.136/ 8" ), QUERYTYPE.CIDR4, "is CIDR4" );
+  equal( getQueryType( "2001:500:13::/128" ), QUERYTYPE.CIDR6, "is CIDR6" );
+  equal( getQueryType( "2001:500:13::/118" ), QUERYTYPE.CIDR6, "is CIDR6" );
+  equal( getQueryType( "2001:500:13::/108" ), QUERYTYPE.CIDR6, "is CIDR6" );
+  equal( getQueryType( "2001:500:13::/98" ), QUERYTYPE.CIDR6, "is CIDR6" );
+  equal( getQueryType( "2001:500:13::/9" ), QUERYTYPE.CIDR6, "is CIDR6" );
+  equal( getQueryType( "2001:500:13:FFFF:FFFF:FFFF:FFFF:FFFF/128" ), QUERYTYPE.CIDR6, "is CIDR6" );
+  equal( getQueryType( "2001:500:13:FFFF:FFFF:FFFF:FFFF:FFFF/118" ), QUERYTYPE.CIDR6, "is CIDR6" );
+  equal( getQueryType( "2001:500:13:FFFF:FFFF:FFFF:FFFF:FFFF/108" ), QUERYTYPE.CIDR6, "is CIDR6" );
+  equal( getQueryType( "2001:500:13:FFFF:FFFF:FFFF:FFFF:FFFF/98" ), QUERYTYPE.CIDR6, "is CIDR6" );
+  equal( getQueryType( "2001:500:13:FFFF:FFFF:FFFF:FFFF:FFFF/8" ), QUERYTYPE.CIDR6, "is CIDR6" );
+  equal( getQueryType( "2001:500:13:FFFF:FFFF:FFFF:FFFF:FFFF /8" ), QUERYTYPE.CIDR6, "is CIDR6" );
+  equal( getQueryType( "2001:500:13:FFFF:FFFF:FFFF:FFFF:FFFF / 8" ), QUERYTYPE.CIDR6, "is CIDR6" );
+  equal( getQueryType( "10204" ), QUERYTYPE.AUTNUM, "is AUTNUM" );
+  equal( getQueryType( "as10204" ), QUERYTYPE.AUTNUM, "is AUTNUM" );
+  equal( getQueryType( "As10204" ), QUERYTYPE.AUTNUM, "is AUTNUM" );
+  equal( getQueryType( "AS10204" ), QUERYTYPE.AUTNUM, "is AUTNUM" );
 });
 
 test("queryTest URL tests", function() {
   equal( QUERYTYPE.IP4.url( "192.149.136.136" ), BASEURL + "ip/192.149.136.136", "IP4 query URL" );
   equal( QUERYTYPE.IP6.url( "2001:500:13::" ), BASEURL + "ip/2001:500:13::", "IP6 query URL" );
+  equal( QUERYTYPE.CIDR4.url( "192.149.136.136/32" ), BASEURL + "ip/192.149.136.136/32", "CIDR4 query URL" );
+  equal( QUERYTYPE.CIDR4.url( "192.149.136.136 /32" ), BASEURL + "ip/192.149.136.136/32", "CIDR4 query URL" );
+  equal( QUERYTYPE.CIDR4.url( "192.149.136.136/ 32" ), BASEURL + "ip/192.149.136.136/32", "CIDR4 query URL" );
+  equal( QUERYTYPE.CIDR6.url( "2001:500:13::/ 32" ), BASEURL + "ip/2001:500:13::/32", "CIDR6 query URL" );
+  equal( QUERYTYPE.CIDR6.url( "2001:500:13:: / 32" ), BASEURL + "ip/2001:500:13::/32", "CIDR6 query URL" );
+  equal( QUERYTYPE.AUTNUM.url( "10204" ), BASEURL + "autnum/10204", "AUTNUM query URL" );
+  equal( QUERYTYPE.AUTNUM.url( "as10204" ), BASEURL + "autnum/10204", "AUTNUM query URL" );
+  equal( QUERYTYPE.AUTNUM.url( "As10204" ), BASEURL + "autnum/10204", "AUTNUM query URL" );
+  equal( QUERYTYPE.AUTNUM.url( "AS10204" ), BASEURL + "autnum/10204", "AUTNUM query URL" );
 });
 
