@@ -30,7 +30,7 @@ QUERYTYPE = {
       return queryterm.match(/^(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}$/);
     },
     url : function ( queryterm ) {
-      return BASEURL;
+      return BASEURL + "ip/" + queryterm.trim();
     }
   },
   IP6 : {
@@ -45,7 +45,7 @@ QUERYTYPE = {
       return false;
     },
     url : function ( queryterm ) {
-      return BASEURL;
+      return BASEURL + "ip/" + queryterm.trim();
     }
   },
   CIDR4 : {
@@ -54,7 +54,7 @@ QUERYTYPE = {
       return false;
     },
     url : function ( queryterm ) {
-      return BASEURL;
+      return BASEURL + "ip/" + queryterm.trim();
     }
   },
   CIDR6 : {
@@ -126,3 +126,5 @@ function getQueryType( queryterm ) {
   });
   return qtObj;
 }
+
+

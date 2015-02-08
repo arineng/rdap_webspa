@@ -17,4 +17,8 @@ test("getQueryType tests", function() {
   equal( getQueryType( "2001:500:13:FFFF:FFFF:FFFF:FFFF:FFFF" ), QUERYTYPE.IP6, "is IP6" );
 });
 
+test("queryTest URL tests", function() {
+  equal( QUERYTYPE.IP4.url( "192.149.136.136" ), BASEURL + "ip/192.149.136.136", "IP4 query URL" );
+  equal( QUERYTYPE.IP6.url( "2001:500:13::" ), BASEURL + "ip/2001:500:13::", "IP6 query URL" );
+});
 
