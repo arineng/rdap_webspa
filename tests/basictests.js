@@ -1,5 +1,6 @@
 /**
- *
+ * These mostly exist to demonstrate how Grunt/Qunit testing works since
+ * Javascript/JQuery unit testing doesn't seem to be much of a thing.
  * Created by andy on 1/28/15.
  */
 module("Basic Tests");
@@ -11,9 +12,9 @@ test("truthy", function() {
 });
 
 test( "tests doubleMultiplier function", function() {
-  equal( doubleMultiplier( 1 ), 2, "1 * 2 = 2")
-  equal( doubleMultiplier( 2 ), 4, "2 * 2 = 4")
-  equal( doubleMultiplier( 3 ), 6, "3 * 2 = 6")
+  equal( doubleMultiplier( 1 ), 2, "1 * 2 = 2");
+  equal( doubleMultiplier( 2 ), 4, "2 * 2 = 4");
+  equal( doubleMultiplier( 3 ), 6, "3 * 2 = 6");
 });
 
 test( "keylogger api behavior", function( assert ) {
