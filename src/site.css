@@ -27,9 +27,16 @@ body > .container {
     padding: 30px 15px 0;
 }
 
-.first-column {
+table {
+    border-collapse: separate;
+}
+
+.isDataLabel {
     width: 15em;
     text-align: right;
+}
+
+.hasChildData {
     border-right: 1px #222222 dotted;
 }
 
