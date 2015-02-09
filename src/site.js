@@ -32,6 +32,8 @@ function clearDivs()
   $( '#querycontainer ~ div' ).remove();
 }
 
+var tsvFile = null;
+
 $(document).ready( function() {
 
   $('#queryTypeRadios').hide();
@@ -52,8 +54,14 @@ $(document).ready( function() {
     }
   });
 
-  $('#clear' ).click( function() {
+  $('#clear > button' ).click( function() {
     clearDivs();
   });
 
+  if (tsvFile !== null) {
+    window.URL.revokeObjectURL(tsvFile);
+  }
+  var data = new Blob( makeTsvData(),{type: "text/plain"});
+  tsvFile = window.URL.createObjectURL(data);
+  $('#clear > a').attr( "href", tsvFile );
 });

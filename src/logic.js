@@ -155,4 +155,6 @@ function getQueryType( queryterm ) {
   return qtObj;
 }
 
-
+function makeTsvData() {
+  return [ "line1", "line2" ];
+}
