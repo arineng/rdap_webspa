@@ -27,14 +27,15 @@ body > .container {
     padding: 30px 15px 0;
 }
 
-table > tbody > tr > td:first-child {
-    padding-left: 15px;;
+.first-column {
+    width: 15em;
+    text-align: right;
+    border-right: 1px #222222 dotted;
 }
 
-tr > td:last-child {
+tr > td {
     font-family: monospace;
 }
-
 
 #queryterm {
     font-style: italic;
