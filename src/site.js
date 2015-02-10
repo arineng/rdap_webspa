@@ -55,6 +55,51 @@ function makeProtocolTable( protocolMsgs )
   );
 }
 
+/*
+ * Creates a div with a table for result Objectclasses such as
+ * Entities, name servers, domains, IP networks, etc...
+ * Input: typeName is the name of the objectclass type
+ *        id is the identifier for the particular instance
+ *        data is an array or arrays, with the inner array containing
+ *          two strings: data item name and the data item
+ */
+function makeOCTable( typeName, id, data )
+{
+  var $tbody = $('<tbody>');
+  $.each( data, function( e ){
+    $tbody.append(  $('<tr>' )
+            .append( $('<td>' )
+                    .text( data[ e ][ 0 ] )
+                    .addClass( "isDataLabel" )
+                    .addClass( "hasChildData" )
+                   )
+            .append( $('<td>' )
+                    .text( data[ e ][ 1 ] )
+                   )
+                 );
+  });
+  return $('<div class="panel panel-default">')
+          .append( $('<div class="panel-body">')
+                  .append( $('<table class="table table-condensed">')
+                          .append( $('<thead>' )
+                                  .append( $('<tr>')
+                                          .append( $('<th>' )
+                                                  .text( typeName )
+                                                 )
+                                          .append( $('<th>' )
+                                                  .append( $('<a>' )
+                                                          .text( id )
+                                                          .attr( "id", id )
+                                                          .attr( "href", "#" + id )
+                                                         )
+                                                 )
+                                          )
+                                  )
+                          .append( $tbody )
+                          )
+                  );
+}
+
 function clearDivs()
 {
   $( '#querycontainer ~ div' ).remove();
@@ -92,6 +137,18 @@ $(document).ready( function() {
   var data = new Blob( makeTsvData(),{type: "text/plain"});
   tsvFile = window.URL.createObjectURL(data);
   $('#clear > a').attr( "href", tsvFile );
+
+  //test of the method... remove later
+  $('#results' ).append( makeOCTable( "Entity", "ALN-ARIN",
+    [ [ "Name", "Andy Newton" ], [ "Email", "andy@arin.net" ], [ "Handle", "ALN-ARIN" ] ] ) );
+
+  //test of the method... remove later
+  $('#results' ).append( makeOCTable( "Entity", "NEWTO24-ARIN",
+          [ [ "Name", "Andy Newton" ], [ "Email", "andy@arin.net" ], [ "Handle", "NEWTO24-ARIN" ] ] ) );
+
+  //test of the method... remove later
+  $('#results' ).append( makeOCTable( "Entity", "ANDY-ARIN",
+          [ [ "Name", "Andy Newton" ], [ "Email", "andy@arin.net" ], [ "Handle", "ANDY-ARIN" ] ] ) );
 
   //test of the method... remove later
   $('#results' ).append( makeProtocolTable( [ "Query URL: http://rdap.arin.net/bootstrap",
