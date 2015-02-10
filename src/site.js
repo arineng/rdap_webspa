@@ -27,6 +27,34 @@ function makeQueryTermDiv( term, description ) {
   return $queryTerm;
 }
 
+/*
+ * Creates the protocol information div.
+ * Input: protocolMsgs is an array of strings
+ * Output: a JQuery div element containing the table
+ */
+function makeProtocolTable( protocolMsgs )
+{
+  var $tbody = $('<tbody>');
+  $.each( protocolMsgs, function( e ){
+    $tbody.append(  $('<tr>' )
+            .append( $('<td>' )
+                    .text( protocolMsgs[ e ] ) ) );
+  });
+  return $('<div class="panel panel-default">')
+          .append( $('<div class="panel-body">')
+                  .append( $('<table class="table table-condensed">')
+                          .append( $('<thead>' )
+                                  .append( $('<tr>')
+                                          .append( $('<th>' )
+                                                  .text( "Protocol Information" )
+                                  )
+                          )
+                  )
+                          .append( $tbody )
+          )
+  );
+}
+
 function clearDivs()
 {
   $( '#querycontainer ~ div' ).remove();
@@ -64,4 +92,8 @@ $(document).ready( function() {
   var data = new Blob( makeTsvData(),{type: "text/plain"});
   tsvFile = window.URL.createObjectURL(data);
   $('#clear > a').attr( "href", tsvFile );
+
+  //test of the method... remove later
+  $('#results' ).append( makeProtocolTable( [ "Query URL: http://rdap.arin.net/bootstrap",
+    "Server supports rdap_level_0", "Server URL: https://rdap.arin.net/registry" ] ) );
 });
