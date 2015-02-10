@@ -100,6 +100,76 @@ function makeOCTable( typeName, id, data )
                   );
 }
 
+/*
+ * Creates a div panel for RDAP notice.
+ * Input: title - string
+ *        paragraphs - an array of strings
+ *        links - an array of arrays, each inner array being strings of link type name and the link
+ *        type - a string of the notice type
+ */
+function makeNotice( title, paragraphs, links, type )
+{
+  var $tbody = $( '<tbody>' )
+          .append( $( '<tr>' )
+                  .append( $( '<td>' )
+                          .attr( "colspan", "2" )
+                          .text( title )
+          )
+  );
+  $tbody.append(
+          $( '<tr>' ).append(
+                  $( '<td>' ).attr( "colspan", "2" )
+                          .append( function ()
+                          {
+                            var ps = [];
+                            $.each( paragraphs, function ( e )
+                            {
+                              ps.push( $( '<p>' ).text( paragraphs[e] ) );
+                            } );
+                            return ps;
+                          }
+                  )
+          )
+  );
+  $.each( links, function ( e )
+  {
+    $tbody.append( $( '<tr>' )
+                    .append( $( '<td>' )
+                            .text( links[e][0] )
+                            .addClass( "isDataLabel" )
+                            .addClass( "hasChildData" )
+            )
+                    .append( $( '<td>' )
+                            .text( links[e][1] )
+            )
+    );
+  } );
+  $tbody.append( $( '<tr>' )
+                  .append( $( '<td>' )
+                          .text( "Notice Type" )
+                          .addClass( "isDataLabel" )
+                          .addClass( "hasChildData" )
+          )
+                  .append( $( '<td>' )
+                          .text( type )
+          )
+  );
+  return $( '<div class="panel panel-default">' )
+          .append( $( '<div class="panel-body">' )
+                  .append( $( '<table class="table table-condensed">' )
+                          .append( $( '<thead>' )
+                                  .append( $( '<tr>' )
+                                          .append( $( '<th>' )
+                                                  .text( "Notice" )
+                                                  .attr( "colspan", "2" )
+                                  )
+                          )
+                  )
+                          .append( $tbody )
+          )
+  );
+}
+
 function clearDivs()
 {
   $( '#querycontainer ~ div' ).remove();
@@ -137,6 +207,18 @@ $(document).ready( function() {
   var data = new Blob( makeTsvData(),{type: "text/plain"});
   tsvFile = window.URL.createObjectURL(data);
   $('#clear > a').attr( "href", tsvFile );
+
+  //test of the method... remove later
+  $('#results' ).append( makeNotice( "Terms of Use",
+          [
+                  "Bacon ipsum dolor amet turducken kielbasa sirloin tail. Swine cow porchetta doner ham hock turkey. Chicken ham fatback shankle venison turducken tongue biltong short loin beef rump pork belly swine. Shank kielbasa pork picanha beef ribs meatball ground round beef ribeye tri-tip tail meatloaf. Meatball ham hock strip steak landjaeger kevin, venison sausage picanha porchetta. Rump spare ribs bresaola pork chop bacon, hamburger ground round cupim tenderloin ham hock chuck brisket capicola shoulder meatball.",
+                  "Filet mignon porchetta capicola cow, shank strip steak pancetta boudin tongue venison rump salami kevin. Ham hock shoulder beef boudin capicola pork meatball corned beef flank rump landjaeger. Strip steak doner brisket, short ribs andouille chuck landjaeger sirloin. Ball tip strip steak ham bresaola, meatball jowl ham hock venison pork belly short loin frankfurter ground round hamburger meatloaf rump. Tongue andouille ham hock tenderloin ham short ribs sausage strip steak spare ribs meatloaf prosciutto pork loin.",
+                  "Leberkas flank alcatra frankfurter chuck cow venison. Ball tip tongue venison ham hock frankfurter andouille ground round. Jerky cow turducken, sirloin spare ribs beef ribs kielbasa bresaola short ribs capicola doner tenderloin porchetta. Pork turducken meatball sausage pork chop beef ribs beef frankfurter. Salami pastrami doner shoulder shank prosciutto turkey t-bone pork brisket chicken. Cow kielbasa cupim andouille shank flank brisket prosciutto.",
+                  "Doner short loin shank corned beef shankle boudin pastrami leberkas chuck landjaeger tongue. Pancetta pork chop meatball ham hock turkey ribeye. Spare ribs salami ham hock, meatloaf rump frankfurter tri-tip hamburger turkey shankle turducken. Cupim meatloaf pork loin alcatra tenderloin pastrami, landjaeger corned beef shoulder. Cow fatback t-bone ham hock, boudin biltong shoulder. Jerky meatloaf venison beef ribeye jowl strip steak short loin brisket prosciutto.",
+                  "Ribeye shank frankfurter flank rump venison brisket drumstick shoulder pork loin ham hock tenderloin chuck ham. Kevin shoulder ball tip pork loin capicola short ribs. Ham meatball picanha, tenderloin tongue alcatra kielbasa jerky. Shank ground round jerky cow. Porchetta cow venison cupim tri-tip pork loin jowl pancetta ball tip frankfurter beef corned beef picanha ribeye pork. Ground round capicola salami, drumstick hamburger pancetta rump pork loin."
+          ],
+          [ [ "Name", "Andy Newton" ], [ "Email", "andy@arin.net" ], [ "Handle", "ALN-ARIN" ] ],
+          "Results truncated") );
 
   //test of the method... remove later
   $('#results' ).append( makeOCTable( "Entity", "ALN-ARIN",
