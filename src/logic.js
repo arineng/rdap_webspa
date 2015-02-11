@@ -158,3 +158,30 @@ function getQueryType( queryterm ) {
 function makeTsvData() {
   return [ "line1", "line2" ];
 }
+
+/*
+ * The summary object is what is used in creating summaries.
+ */
+var SummaryObject = function() {
+  this.nameType = null;
+  this.name = null;
+  this.linkable = true;
+  this.description = null;
+  this.children = new Array(); //an array of SummaryObjects
+};
+
+/*
+ * Calculates the necessary rowspan for a Summary Object.
+ * Input: summaryObject - a summary object
+ * Output: int that is the necessary rowspan
+ */
+function calculateRowSpan( summaryObject ){
+  var rowspan = 0;
+  if( summaryObject.children.length > 1 )
+  {
+    $.each( summaryObject.children, function( e ){
+      rowspan += calculateRowSpan( summaryObject.children[ e ] );
+    });
+  }
+  return rowspan < 1 ? 1 : rowspan;
+}

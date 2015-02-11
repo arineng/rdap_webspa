@@ -62,6 +62,7 @@ function makeProtocolTable( protocolMsgs )
  *        id is the identifier for the particular instance
  *        data is an array or arrays, with the inner array containing
  *          two strings: data item name and the data item
+ * Output: a JQuery div
  */
 function makeOCTable( typeName, id, data )
 {
@@ -106,6 +107,7 @@ function makeOCTable( typeName, id, data )
  *        paragraphs - an array of strings
  *        links - an array of arrays, each inner array being strings of link type name and the link
  *        type - a string of the notice type
+ * Output: a JQuery div
  */
 function makeNotice( title, paragraphs, links, type )
 {
@@ -170,6 +172,83 @@ function makeNotice( title, paragraphs, links, type )
   );
 }
 
+/*
+ * Creates a div panel for a results summary.
+ * Input: an array of SummaryObjects
+ * Output: a JQuery div containing the summary
+ */
+function makeSummaryTable( arrSummObjs ){
+  var $tbody = $('<tbody>');
+  $.each( arrSummObjs, function( i ){
+    var arrStack = new Array();
+    var indStack = new Array();
+    arrStack.push( arrSummObjs[i].children );
+    indStack.push( 0 );
+    var $tr = $('<tr>');
+    $tr.append( makeSummaryCell( arrSummObjs[i] ) );
+    while( arrStack.length > 0 ){
+      var arr = arrStack[arrStack.length-1];
+      var ind = indStack[indStack.length-1];
+      if( ind == arr.length ) {
+        arrStack.pop();
+        indStack.pop();
+      } else {
+        var summaryObj = arr[ind];
+        $tr.append( makeSummaryCell( summaryObj ) );
+        ind++;
+        indStack[indStack.length-1] = ind;
+        if( summaryObj.children.length > 0 ) {
+          arrStack.push( summaryObj.children );
+          indStack.push( 0 );
+        } else {
+          $tbody.append( $tr );
+          $tr = $('<tr>');
+        }
+      }
+    }
+  });
+  return $('<div class="panel panel-default">')
+    .append( $('<div class="panel-body">')
+               .append( $('<table class="table table-condensed">')
+                          .append( $('<thead>' )
+                                     .append( $('<tr>')
+                                                .append( $('<th>' )
+                                                           .text( "Summary" )
+                                                           .attr( "colspan", "100" )
+                                              )
+                                   )
+                        )
+                          .append( $tbody )
+             )
+  );
+}
+
+/*
+ * Creates a table cell for a summary object
+ * Input: summary object
+ * Output: a JQuery <td>
+ */
+function makeSummaryCell( summaryObject ) {
+  var $td = $('<td>' ).attr( "rowspan", calculateRowSpan( summaryObject ) );
+  if( summaryObject.children.length > 0 ) {
+    $td.addClass( "hasChildData" );
+  } else {
+    $td.attr( "colspan", "100" );
+  }
+  $td.append( summaryObject.nameType + ": " );
+  if( summaryObject.linkable ){
+    $td.append( $('<a>' ).text( summaryObject.name ).attr( "href", summaryObject.name ) );
+  } else {
+    $td.append( summaryObject.name );
+  }
+  if( summaryObject.description )
+  {
+    $td.append( "<br>" );
+    $td.append( "(" + summaryObject.description + ")" );
+  }
+  return $td;
+}
+
 function clearDivs()
 {
   $( '#querycontainer ~ div' ).remove();
@@ -207,6 +286,76 @@ $(document).ready( function() {
   var data = new Blob( makeTsvData(),{type: "text/plain"});
   tsvFile = window.URL.createObjectURL(data);
   $('#clear > a').attr( "href", tsvFile );
+
+  //test of the method... remove later
+  var net = new SummaryObject();
+  net.nameType="Network";
+  net.name="NET-125-0-0-0-1";
+  net.description="125.0.0.0 - 125.255.255.255";
+  var contact1 = new SummaryObject();
+  contact1.nameType="Entity";
+  contact1.name="contact1-info";
+  contact1.description="Alexander	Graham";
+  net.children.push( contact1 );
+  var contact2 = new SummaryObject();
+  contact2.nameType="Entity";
+  contact2.name="contact2-info";
+  contact2.description="Grace Alsop";
+  net.children.push( contact2 );
+  var contact11 = new SummaryObject();
+  contact11.nameType="Entity";
+  contact11.name="contact11-info";
+  contact11.description="Sophie	Oliver";
+  net.children.push( contact11 );
+  var ns1 = new SummaryObject();
+  ns1.nameType="Nameserver";
+  ns1.name="ns1.dnsservice.info";
+  net.children.push( ns1 );
+  var contact3 = new SummaryObject();
+  contact3.nameType="Entity";
+  contact3.name="contact3-info";
+  contact3.description="Leonard	Newman";
+  ns1.children.push( contact3 );
+  var contact7 = new SummaryObject();
+  contact7.nameType="Entity";
+  contact7.name="contact7-info";
+  contact7.description="Edward	Howard";
+  contact3.children.push( contact7 );
+  var contact8 = new SummaryObject();
+  contact8.nameType="Entity";
+  contact8.name="contact8-info";
+  contact8.description="Carol	Berry";
+  contact3.children.push( contact8 );
+  var contact4 = new SummaryObject();
+  contact4.nameType="Entity";
+  contact4.name="contact4-info";
+  contact4.description="Lisa	Grant";
+  ns1.children.push( contact4 );
+  var ns2 = new SummaryObject();
+  ns2.nameType="Nameserver";
+  ns2.name="ns2.dnsservice.info";
+  net.children.push( ns2 );
+  var contact5 = new SummaryObject();
+  contact5.nameType="Entity";
+  contact5.name="contact5-info";
+  contact5.description="Joshua	Turner";
+  ns2.children.push( contact5 );
+  var contact6 = new SummaryObject();
+  contact6.nameType="Entity";
+  contact6.name="contact6-info";
+  contact6.description="Sophie	Wright";
+  ns2.children.push( contact6 );
+  var contact9 = new SummaryObject();
+  contact9.nameType="Entity";
+  contact9.name="contact9-info";
+  contact9.description="Donna	Mackenzie";
+  contact6.children.push( contact9 );
+  var contact10 = new SummaryObject();
+  contact10.nameType="Entity";
+  contact10.name="contact10-info";
+  contact10.description="Elizabeth	Lawrence";
+  contact6.children.push( contact10 );
+  $('#results' ).append( makeSummaryTable( [ net ] ) );
 
   //test of the method... remove later
   $('#results' ).append( makeNotice( "Terms of Use",
