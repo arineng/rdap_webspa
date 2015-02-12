@@ -157,6 +157,15 @@ function makeResultsContainer(){
   return $resultsContainer
 }
 
+/*
+ * Appends the clear container the results container
+ */
+function makeClearContainer(){
+  var $clearContainer = $('#template > .clearContainer' ).clone().attr( "id", "clear" ).show();
+  $('#querycontainer' ).after( $clearContainer );
+  return $clearContainer
+}
+
 function clearDivs()
 {
   $( '#querycontainer ~ div' ).remove();
@@ -174,6 +183,7 @@ $(document).ready( function() {
     var queryType = getQueryType(queryText);
     makeQueryTermDiv( queryText, queryType.description );
     makeResultsContainer();
+    makeClearContainer();
     return false;
   } );
 
@@ -189,12 +199,15 @@ $(document).ready( function() {
     clearDivs();
   });
 
+  makeClearContainer();
+
   if (tsvFile !== null) {
     window.URL.revokeObjectURL(tsvFile);
   }
   var data = new Blob( makeTsvData(),{type: "text/plain"});
   tsvFile = window.URL.createObjectURL(data);
   $('#clear > a').attr( "href", tsvFile );
+
   //test of the method... remove later
   makeResultsContainer();
 
