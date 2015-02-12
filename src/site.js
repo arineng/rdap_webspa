@@ -12,18 +12,10 @@
  * returns the #queryterm div node
  */
 function makeQueryTermDiv( term, description ) {
-  var $queryTerm = $('<div class="container" id="queryterm"/>' );
-  $queryTerm.append( $('<p>Query term is "' + term + '".</p>') );
-  $queryTerm.append( $('<p>Query type is ' + description + '.</p>') );
-  $('<div class="progress" />' )
-    .append( $('<div class="progress-bar progress-bar-striped active" />')
-                  .attr("role","progressbar")
-                  .attr("aria-valuenow","100")
-                  .attr("aria-valuemin","0")
-                  .attr("aria-valuemax","100")
-                  .attr("style","width:100%"))
-          .appendTo( $queryTerm );
-  $('#querycontainer' ).after( $queryTerm );
+  var $queryTerm = $('#template > .queryTermContainer' ).clone().attr( "id", "queryterm" );
+  $queryTerm.prepend( $('<p>Query term is "' + term + '".</p>') );
+  $queryTerm.prepend( $('<p>Query type is ' + description + '.</p>') );
+  $('#dynamicContainers' ).append( $queryTerm );
   return $queryTerm;
 }
 
@@ -149,26 +141,29 @@ function makeTreeDataViews() {
 }
 
 /*
- * Appends the results container the results container
+ * Appends the results container
  */
 function makeResultsContainer(){
   var $resultsContainer = $('#template > .resultsContainer' ).clone().attr( "id", "results" ).show();
-  $('#querycontainer' ).after( $resultsContainer );
+  $('#dynamicContainers' ).append( $resultsContainer );
   return $resultsContainer
 }
 
 /*
- * Appends the clear container the results container
+ * Appends the clear container
  */
 function makeClearContainer(){
   var $clearContainer = $('#template > .clearContainer' ).clone().attr( "id", "clear" ).show();
-  $('#querycontainer' ).after( $clearContainer );
+  $('#dynamicContainers' ).append( $clearContainer );
+  $('#clear > button' ).click( function() {
+    clearDivs();
+  });
   return $clearContainer
 }
 
 function clearDivs()
 {
-  $( '#querycontainer ~ div' ).remove();
+  $( '#dynamicContainers > div' ).remove();
 }
 
 var tsvFile = null;
@@ -184,6 +179,7 @@ $(document).ready( function() {
     makeQueryTermDiv( queryText, queryType.description );
     makeResultsContainer();
     makeClearContainer();
+    makeTestResults();
     return false;
   } );
 
@@ -195,11 +191,11 @@ $(document).ready( function() {
     }
   });
 
-  $('#clear > button' ).click( function() {
-    clearDivs();
-  });
 
-  makeClearContainer();
+});
+
+// this should go away
+function makeTestResults() {
 
   if (tsvFile !== null) {
     window.URL.revokeObjectURL(tsvFile);
@@ -208,20 +204,18 @@ $(document).ready( function() {
   tsvFile = window.URL.createObjectURL(data);
   $('#clear > a').attr( "href", tsvFile );
 
-  //test of the method... remove later
-  makeResultsContainer();
 
   //test of the method... remove later
   $('#results' ).append( makeNotice( "Terms of Use",
-          [
-                  "Bacon ipsum dolor amet turducken kielbasa sirloin tail. Swine cow porchetta doner ham hock turkey. Chicken ham fatback shankle venison turducken tongue biltong short loin beef rump pork belly swine. Shank kielbasa pork picanha beef ribs meatball ground round beef ribeye tri-tip tail meatloaf. Meatball ham hock strip steak landjaeger kevin, venison sausage picanha porchetta. Rump spare ribs bresaola pork chop bacon, hamburger ground round cupim tenderloin ham hock chuck brisket capicola shoulder meatball.",
-                  "Filet mignon porchetta capicola cow, shank strip steak pancetta boudin tongue venison rump salami kevin. Ham hock shoulder beef boudin capicola pork meatball corned beef flank rump landjaeger. Strip steak doner brisket, short ribs andouille chuck landjaeger sirloin. Ball tip strip steak ham bresaola, meatball jowl ham hock venison pork belly short loin frankfurter ground round hamburger meatloaf rump. Tongue andouille ham hock tenderloin ham short ribs sausage strip steak spare ribs meatloaf prosciutto pork loin.",
-                  "Leberkas flank alcatra frankfurter chuck cow venison. Ball tip tongue venison ham hock frankfurter andouille ground round. Jerky cow turducken, sirloin spare ribs beef ribs kielbasa bresaola short ribs capicola doner tenderloin porchetta. Pork turducken meatball sausage pork chop beef ribs beef frankfurter. Salami pastrami doner shoulder shank prosciutto turkey t-bone pork brisket chicken. Cow kielbasa cupim andouille shank flank brisket prosciutto.",
-                  "Doner short loin shank corned beef shankle boudin pastrami leberkas chuck landjaeger tongue. Pancetta pork chop meatball ham hock turkey ribeye. Spare ribs salami ham hock, meatloaf rump frankfurter tri-tip hamburger turkey shankle turducken. Cupim meatloaf pork loin alcatra tenderloin pastrami, landjaeger corned beef shoulder. Cow fatback t-bone ham hock, boudin biltong shoulder. Jerky meatloaf venison beef ribeye jowl strip steak short loin brisket prosciutto.",
-                  "Ribeye shank frankfurter flank rump venison brisket drumstick shoulder pork loin ham hock tenderloin chuck ham. Kevin shoulder ball tip pork loin capicola short ribs. Ham meatball picanha, tenderloin tongue alcatra kielbasa jerky. Shank ground round jerky cow. Porchetta cow venison cupim tri-tip pork loin jowl pancetta ball tip frankfurter beef corned beef picanha ribeye pork. Ground round capicola salami, drumstick hamburger pancetta rump pork loin."
-          ],
-          [ [ "Name", "Andy Newton" ], [ "Email", "andy@arin.net" ], [ "Handle", "ALN-ARIN" ] ],
-          "Results truncated") );
+                                     [
+                                       "Bacon ipsum dolor amet turducken kielbasa sirloin tail. Swine cow porchetta doner ham hock turkey. Chicken ham fatback shankle venison turducken tongue biltong short loin beef rump pork belly swine. Shank kielbasa pork picanha beef ribs meatball ground round beef ribeye tri-tip tail meatloaf. Meatball ham hock strip steak landjaeger kevin, venison sausage picanha porchetta. Rump spare ribs bresaola pork chop bacon, hamburger ground round cupim tenderloin ham hock chuck brisket capicola shoulder meatball.",
+                                       "Filet mignon porchetta capicola cow, shank strip steak pancetta boudin tongue venison rump salami kevin. Ham hock shoulder beef boudin capicola pork meatball corned beef flank rump landjaeger. Strip steak doner brisket, short ribs andouille chuck landjaeger sirloin. Ball tip strip steak ham bresaola, meatball jowl ham hock venison pork belly short loin frankfurter ground round hamburger meatloaf rump. Tongue andouille ham hock tenderloin ham short ribs sausage strip steak spare ribs meatloaf prosciutto pork loin.",
+                                       "Leberkas flank alcatra frankfurter chuck cow venison. Ball tip tongue venison ham hock frankfurter andouille ground round. Jerky cow turducken, sirloin spare ribs beef ribs kielbasa bresaola short ribs capicola doner tenderloin porchetta. Pork turducken meatball sausage pork chop beef ribs beef frankfurter. Salami pastrami doner shoulder shank prosciutto turkey t-bone pork brisket chicken. Cow kielbasa cupim andouille shank flank brisket prosciutto.",
+                                       "Doner short loin shank corned beef shankle boudin pastrami leberkas chuck landjaeger tongue. Pancetta pork chop meatball ham hock turkey ribeye. Spare ribs salami ham hock, meatloaf rump frankfurter tri-tip hamburger turkey shankle turducken. Cupim meatloaf pork loin alcatra tenderloin pastrami, landjaeger corned beef shoulder. Cow fatback t-bone ham hock, boudin biltong shoulder. Jerky meatloaf venison beef ribeye jowl strip steak short loin brisket prosciutto.",
+                                       "Ribeye shank frankfurter flank rump venison brisket drumstick shoulder pork loin ham hock tenderloin chuck ham. Kevin shoulder ball tip pork loin capicola short ribs. Ham meatball picanha, tenderloin tongue alcatra kielbasa jerky. Shank ground round jerky cow. Porchetta cow venison cupim tri-tip pork loin jowl pancetta ball tip frankfurter beef corned beef picanha ribeye pork. Ground round capicola salami, drumstick hamburger pancetta rump pork loin."
+                                     ],
+                                     [ [ "Name", "Andy Newton" ], [ "Email", "andy@arin.net" ], [ "Handle", "ALN-ARIN" ] ],
+                                     "Results truncated") );
 
   var defaultData = [
     {
@@ -279,13 +273,13 @@ $(document).ready( function() {
 
   //test of the method... remove later
   $('#treeview').treeview({
-                             color: "#428bca",
-                             expandIcon: "glyphicon glyphicon-stop",
-                             collapseIcon: "glyphicon glyphicon-unchecked",
-                             nodeIcon: "glyphicon glyphicon-user",
-                             showTags: true,
-                             data: defaultData
-                           });
+                            color: "#428bca",
+                            expandIcon: "glyphicon glyphicon-stop",
+                            collapseIcon: "glyphicon glyphicon-unchecked",
+                            nodeIcon: "glyphicon glyphicon-user",
+                            showTags: true,
+                            data: defaultData
+                          });
 
 
   //test of the method... remove later
@@ -296,18 +290,6 @@ $(document).ready( function() {
   });
 
   //test of the method... remove later
-  $('#results' ).append( makeOCTable( "Entity", "ALN-ARIN",
-    [ [ "Name", "Andy Newton" ], [ "Email", "andy@arin.net" ], [ "Handle", "ALN-ARIN" ] ] ) );
-
-  //test of the method... remove later
-  $('#results' ).append( makeOCTable( "Entity", "NEWTO24-ARIN",
-          [ [ "Name", "Andy Newton" ], [ "Email", "andy@arin.net" ], [ "Handle", "NEWTO24-ARIN" ] ] ) );
-
-  //test of the method... remove later
-  $('#results' ).append( makeOCTable( "Entity", "ANDY-ARIN",
-          [ [ "Name", "Andy Newton" ], [ "Email", "andy@arin.net" ], [ "Handle", "ANDY-ARIN" ] ] ) );
-
-  //test of the method... remove later
   $('#results' ).append( makeProtocolTable( [ "Query URL: http://rdap.arin.net/bootstrap",
-    "Server supports rdap_level_0", "Server URL: https://rdap.arin.net/registry" ] ) );
-});
+                                              "Server supports rdap_level_0", "Server URL: https://rdap.arin.net/registry" ] ) );
+}
