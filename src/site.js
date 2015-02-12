@@ -40,19 +40,7 @@ function makeProtocolTable( protocolMsgs )
             .append( $('<td>' )
                     .text( protocolMsgs[ e ] ) ) );
   });
-  return $('<div class="panel panel-default">')
-          .append( $('<div class="panel-body">')
-                  .append( $('<table class="table table-condensed">')
-                          .append( $('<thead>' )
-                                  .append( $('<tr>')
-                                          .append( $('<th>' )
-                                                  .text( "Protocol Information" )
-                                  )
-                          )
-                  )
-                          .append( $tbody )
-          )
-  );
+  return $('#template > .protocolTablePanel' ).clone().show().find('table' ).append( $tbody ).end();
 }
 
 /*
