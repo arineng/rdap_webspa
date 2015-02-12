@@ -79,26 +79,15 @@ function makeOCTable( typeName, id, data )
                    )
                  );
   });
-  return $('<div class="panel panel-default">')
-          .append( $('<div class="panel-body">')
-                  .append( $('<table class="table table-condensed">')
-                          .append( $('<thead>' )
-                                  .append( $('<tr>')
-                                          .append( $('<th>' )
-                                                  .text( typeName )
-                                                 )
-                                          .append( $('<th>' )
-                                                  .append( $('<a>' )
-                                                          .text( id )
-                                                          .attr( "id", id )
-                                                          .attr( "href", "#" + id )
-                                                         )
-                                                 )
-                                          )
-                                  )
-                          .append( $tbody )
-                          )
-                  );
+  return $('#template > .ocTablePanel' ).clone().show().find('table' )
+    .append( $tbody )
+    .find('th:first-child')
+      .text( typeName )
+      .end()
+    .find('th:last-child')
+      .text( id )
+      .end()
+    .end();
 }
 
 /*
@@ -156,20 +145,7 @@ function makeNotice( title, paragraphs, links, type )
                           .text( type )
           )
   );
-  return $( '<div class="panel panel-default">' )
-          .append( $( '<div class="panel-body">' )
-                  .append( $( '<table class="table table-condensed">' )
-                          .append( $( '<thead>' )
-                                  .append( $( '<tr>' )
-                                          .append( $( '<th>' )
-                                                  .text( "Notice" )
-                                                  .attr( "colspan", "2" )
-                                  )
-                          )
-                  )
-                          .append( $tbody )
-          )
-  );
+  return $('#template > .noticePanel' ).clone().show().find('table' ).append( $tbody ).end();
 }
 
 /*
