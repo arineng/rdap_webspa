@@ -165,8 +165,12 @@ function makeClearContainer(){
 /*
  * Appends the ooops container
  */
-function makeOoopsContainer(){
+function makeOoopsContainer( errorMsgs ){
   var $oopsContainer = $('#template > .oopsContainer' ).clone().attr( "id", "oops" ).show();
+  var $panelBody = $oopsContainer.find( '.panel-body' );
+  $.each( errorMsgs, function( i ) {
+    $panelBody.append( $('<p>' ).text( errorMsgs[ i ] ) );
+  });
   $('#dynamicContainers' ).append( $oopsContainer );
   return $oopsContainer;
 }
@@ -207,7 +211,7 @@ function makeTestResults() {
 
   $('#progressBar' ).hide();
 
-  makeOoopsContainer();
+  makeOoopsContainer( [ "Unable to connect to server." ] );
   return;
 
   makeResultsContainer();
