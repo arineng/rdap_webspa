@@ -10,6 +10,50 @@
     <link href="site.css" rel="stylesheet">
   </head>
   <body>
+  <!--
+  Templates for cloning with jQuery
+    -->
+  <div id="template" style="display: none">
+
+      <div class="dataTreeViewRow row">
+          <div class="col-sm-4 col-md-4">
+              <div class="treeViewClass"></div>
+          </div>
+          <div class="col-sm-8 col-md-8">
+              <div class="dataViewClass"></div>
+          </div>
+      </div>
+
+      <div class="noticePanel panel panel-default">
+          <div class="panel-body">
+              <table class="table table-condensed">
+                  <thead>
+                  <tr><th colspan="2">Notice</th></tr>
+                  </thead>
+              </table>
+          </div>
+      </div>
+
+      <div class="ocTablePanel panel panel-default">
+          <div class="panel-body">
+              <table class="table table-condensed">
+                  <thead><tr><th></th><th></th></tr></thead>
+              </table>
+          </div>
+      </div>
+
+      <div class="protocolTablePanel panel panel-default">
+          <div class="panel-body">
+              <table class="table table-condensed">
+                  <thead><tr><th>Protocol Information</th></tr></thead>
+              </table>
+          </div>
+      </div>
+
+      <div class="resultsContainer container">
+      </div>
+
+  </div>
 
     <div class="container jumbotron" id="querycontainer">
       <h2>RDAP <small>Registration Data Access Protocol</small></h2>
@@ -83,8 +127,6 @@
         </small>
       </p>
     </div>
-    <div class="container" id="results">
-    </div>
     <div class="container" id="clear">
         <a class="btn btn-primary btn-lg" role="button" download="rdap.tsv">Download</a>
         <button type="button" class="btn btn-success btn-lg">Clear</button>
@@ -102,46 +144,5 @@
   <script src="site.js"></script>
   <script src="logic.js"></script>
 
-  <!--
-  Templates for cloning with jQuery
-    -->
-  <div id="template" style="display: none">
-
-    <div class="dataTreeViewRow row">
-        <div class="col-sm-4 col-md-4">
-           <div class="treeViewClass"></div>
-        </div>
-        <div class="col-sm-8 col-md-8">
-            <div class="dataViewClass"></div>
-        </div>
-    </div>
-
-    <div class="noticePanel panel panel-default">
-        <div class="panel-body">
-            <table class="table table-condensed">
-                <thead>
-                    <tr><th colspan="2">Notice</th></tr>
-                </thead>
-            </table>
-        </div>
-    </div>
-
-    <div class="ocTablePanel panel panel-default">
-        <div class="panel-body">
-            <table class="table table-condensed">
-                <thead><tr><th></th><th></th></tr></thead>
-            </table>
-        </div>
-    </div>
-
-    <div class="protocolTablePanel panel panel-default">
-        <div class="panel-body">
-            <table class="table table-condensed">
-                <thead><tr><th>Protocol Information</th></tr></thead>
-            </table>
-        </div>
-    </div>
-
-  </div>
   </body>
 </html >

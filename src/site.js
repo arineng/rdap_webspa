@@ -148,6 +148,15 @@ function makeTreeDataViews() {
   return $div;
 }
 
+/*
+ * Appends the results container the results container
+ */
+function makeResultsContainer(){
+  var $resultsContainer = $('#template > .resultsContainer' ).clone().attr( "id", "results" ).show();
+  $('#querycontainer' ).after( $resultsContainer );
+  return $resultsContainer
+}
+
 function clearDivs()
 {
   $( '#querycontainer ~ div' ).remove();
@@ -164,6 +173,7 @@ $(document).ready( function() {
     var queryText = $('#queryText' ).val().trim();
     var queryType = getQueryType(queryText);
     makeQueryTermDiv( queryText, queryType.description );
+    makeResultsContainer();
     return false;
   } );
 
@@ -185,6 +195,8 @@ $(document).ready( function() {
   var data = new Blob( makeTsvData(),{type: "text/plain"});
   tsvFile = window.URL.createObjectURL(data);
   $('#clear > a').attr( "href", tsvFile );
+  //test of the method... remove later
+  makeResultsContainer();
 
   //test of the method... remove later
   $('#results' ).append( makeNotice( "Terms of Use",
