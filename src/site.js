@@ -177,18 +177,11 @@ function makeNotice( title, paragraphs, links, type )
  * Output: a JQuery div containing bootstrap row and two divs, one for the tree and the other for the data
  */
 function makeTreeDataViews() {
-  return $('<div>' )
-    .addClass( "row" )
-    .append( $('<div>' )
-                        .addClass( "col-sm-4" )
-                        .addClass( "col-md-4" )
-                        .append( $('<div id="treeview">') )
-           )
-    .append( $('<div>')
-                        .addClass( "col-sm-8" )
-                        .addClass( "col-md-8" )
-                        .append( $('<div id="dataview">') )
-           );
+  var $div = $('#template > .dataTreeViewRow' ).clone();
+  $div.find( ".treeViewClass" ).attr( "id", "treeview" );
+  $div.find( ".dataViewClass" ).attr( "id", "dataview" );
+  $div.show();
+  return $div;
 }
 
 function clearDivs()
