@@ -159,3 +159,41 @@ function makeTsvData() {
   return [ "line1", "line2" ];
 }
 
+var protocolMessages = null;
+
+/*
+ * Prepares a new query.
+ * Input: the URL of the new query.
+ */
+function doNewQuery( url ) {
+  protocolMessages = new Array();
+  protocolMessages.push( "Query URL: " + url );
+  $.ajax({
+           headers: {
+             Accept: "application/rdap+json"
+           },
+           dataType: "json",
+           url: url,
+           type: "GET"
+         })
+    .done( querySuccess )
+    .fail( queryError )
+    .always( queryComplete );
+}
+
+function querySuccess( data, textStatus, jqXHR ) {
+  makeTestResults();
+  if( jqXHR.responseURL ){
+    protocolMessages.push( "Response URL: " + jqXHR.responseURL );
+  }
+  $('#results' ).append( makeProtocolTable( protocolMessages ) );
+}
+
+function queryError() {
+  makeOoopsContainer( [ "Unable to connect to server." ] );
+}
+
+function queryComplete() {
+  $('#progressBar' ).hide();
+}
+

@@ -191,7 +191,7 @@ $(document).ready( function() {
     var queryText = $('#queryText' ).val().trim();
     var queryType = getQueryType(queryText);
     makeQueryTermDiv( queryText, queryType.description );
-    window.setTimeout( makeTestResults , 1000 );
+    doNewQuery( queryType.url( queryText ) );
     return false;
   } );
 
@@ -208,11 +208,6 @@ $(document).ready( function() {
 
 // this should go away
 function makeTestResults() {
-
-  $('#progressBar' ).hide();
-
-  makeOoopsContainer( [ "Unable to connect to server." ] );
-  return;
 
   makeResultsContainer();
   makeClearContainer();
@@ -309,8 +304,5 @@ function makeTestResults() {
                                          [ [ "Name", "Andy Newton" ], [ "Email", "andy@arin.net" ], [ "Handle", "ALN-ARIN" ] ] ) );
   });
 
-  //test of the method... remove later
-  $('#results' ).append( makeProtocolTable( [ "Query URL: http://rdap.arin.net/bootstrap",
-                                              "Server supports rdap_level_0", "Server URL: https://rdap.arin.net/registry" ] ) );
 }
 
