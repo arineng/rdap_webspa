@@ -11,7 +11,7 @@
  * This is the Base URL of the location where queries will be sent.
  * Always make sure it ends in a '/' character.
  */
-BASEURL = "http://rdap-pilot.arin.net/rdapbootstrap/";
+BASEURL = "http://rdap.apnic.net/";
 
 // IPv4 and IPv6 regular expressions are credited to Mike Poulson and are found here:
 //   http://blogs.msdn.com/b/mpoulson/archive/2005/01/10/350037.aspx

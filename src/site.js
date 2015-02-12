@@ -172,6 +172,24 @@ function makeNotice( title, paragraphs, links, type )
   );
 }
 
+/*
+ * Creates the divs for the tree and data views.
+ * Output: a JQuery div containing bootstrap row and two divs, one for the tree and the other for the data
+ */
+function makeTreeDataViews() {
+  return $('<div>' )
+    .addClass( "row" )
+    .append( $('<div>' )
+                        .addClass( "col-sm-4" )
+                        .addClass( "col-md-4" )
+                        .append( $('<div id="treeview">') )
+           )
+    .append( $('<div>')
+                        .addClass( "col-sm-8" )
+                        .addClass( "col-md-8" )
+                        .append( $('<div id="dataview">') )
+           );
+}
 
 function clearDivs()
 {
@@ -275,6 +293,8 @@ $(document).ready( function() {
     }
   ];
 
+  $('#results' ).append( makeTreeDataViews() );
+
   //test of the method... remove later
   $('#treeview').treeview({
                              color: "#428bca",
@@ -288,6 +308,7 @@ $(document).ready( function() {
 
   //test of the method... remove later
   $('#treeview' ).on('nodeSelected', function() {
+    $('#dataview > div' ).remove();
     $('#dataview' ).append( makeOCTable( "Entity", "ALN-ARIN",
                                          [ [ "Name", "Andy Newton" ], [ "Email", "andy@arin.net" ], [ "Handle", "ALN-ARIN" ] ] ) );
   });
