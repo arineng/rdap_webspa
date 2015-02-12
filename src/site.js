@@ -15,6 +15,7 @@ function makeQueryTermDiv( term, description ) {
   var $queryTerm = $('#template > .queryTermContainer' ).clone().attr( "id", "queryterm" );
   $queryTerm.prepend( $('<p>Query term is "' + term + '".</p>') );
   $queryTerm.prepend( $('<p>Query type is ' + description + '.</p>') );
+  $queryTerm.find( '.progress' ).attr( "id", "progressBar" ).show();;
   $('#dynamicContainers' ).append( $queryTerm );
   return $queryTerm;
 }
@@ -161,6 +162,15 @@ function makeClearContainer(){
   return $clearContainer
 }
 
+/*
+ * Appends the ooops container
+ */
+function makeOoopsContainer(){
+  var $oopsContainer = $('#template > .oopsContainer' ).clone().attr( "id", "oops" ).show();
+  $('#dynamicContainers' ).append( $oopsContainer );
+  return $oopsContainer;
+}
+
 function clearDivs()
 {
   $( '#dynamicContainers > div' ).remove();
@@ -177,9 +187,7 @@ $(document).ready( function() {
     var queryText = $('#queryText' ).val().trim();
     var queryType = getQueryType(queryText);
     makeQueryTermDiv( queryText, queryType.description );
-    makeResultsContainer();
-    makeClearContainer();
-    makeTestResults();
+    window.setTimeout( makeTestResults , 1000 );
     return false;
   } );
 
@@ -196,6 +204,14 @@ $(document).ready( function() {
 
 // this should go away
 function makeTestResults() {
+
+  $('#progressBar' ).hide();
+
+  makeOoopsContainer();
+  return;
+
+  makeResultsContainer();
+  makeClearContainer();
 
   if (tsvFile !== null) {
     window.URL.revokeObjectURL(tsvFile);
@@ -293,3 +309,4 @@ function makeTestResults() {
   $('#results' ).append( makeProtocolTable( [ "Query URL: http://rdap.arin.net/bootstrap",
                                               "Server supports rdap_level_0", "Server URL: https://rdap.arin.net/registry" ] ) );
 }
+
