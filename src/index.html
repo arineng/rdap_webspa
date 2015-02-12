@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title> Welcome </title>
     <link href="lib/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="lib/css/bootstrap-treeview.css" rel="stylesheet" />
     <link href="site.css" rel="stylesheet">
   </head>
   <body>
@@ -83,6 +84,14 @@
       </p>
     </div>
     <div class="container" id="results">
+        <div class="row">
+            <div class="col-sm-4 col-md-4">
+                <div id="treeview" class=""></div>
+            </div>
+            <div class="col-sm-8 col-md-8">
+                <div id="dataview" class=""></div>
+            </div>
+        </div>
     </div>
     <div class="container" id="clear">
         <a class="btn btn-primary btn-lg" role="button" download="rdap.tsv">Download</a>
@@ -97,6 +106,7 @@
         </div>
     </footer>
   <script src="lib/js/jquery-1.11.2.min.js"></script>
+  <script src="lib/js/bootstrap-treeview.js"></script>
   <script src="site.js"></script>
   <script src="logic.js"></script>
   </body>
