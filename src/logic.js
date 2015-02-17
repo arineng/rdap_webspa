@@ -197,3 +197,22 @@ function queryComplete() {
   $('#progressBar' ).hide();
 }
 
+function convertClassToId( $jquery ) {
+  var elems = {};
+  $jquery.each( function() {
+    var target = $(this);
+    var classes = target.attr( "class" );
+    if( classes ) {
+      var arr = classes.split( " " );
+      $.each( arr, function( index, value ) {
+        if( matches = value.match( /^(.*)IdClass$/ ) ) {
+          elems[ matches[ 1 ] ] = target;
+        }
+      });
+    }
+    convertClassToId( target.children() );
+  });
+  $.each( elems, function( id, element ) {
+    element.attr( "id", id );
+  });
+}

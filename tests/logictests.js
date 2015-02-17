@@ -61,3 +61,13 @@ test("QUERYTYPEs have descriptions", function() {
   ok( QUERYTYPE.AUTNUM.description, "AUTNUM description")
 });
 
+test("Convert Class to ID" , function() {
+  var target = $( '#testConvertClassToID' );
+  convertClassToId( target );
+  ok( target.find( '#cute' ).length == 1 );
+  ok( target.find( '#veryCute' ).length == 1 );
+  ok( target.find( '#evenCuter' ).length == 1 );
+  ok( target.find( '#notCute' ).length == 0 );
+  ok( target.find( '#notCuteAtAll' ).length == 0 );
+});
+
