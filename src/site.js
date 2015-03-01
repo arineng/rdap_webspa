@@ -25,22 +25,6 @@ function makeQueryTermDiv( term, description ) {
  * Input: protocolMsgs is an array of strings
  * Output: a JQuery div element containing the table
  */
-function makeProtocolTable( protocolMsgs )
-{
-  var $tbody = $('<tbody>');
-  $.each( protocolMsgs, function( e ){
-    $tbody.append(  $('<tr>' )
-            .append( $('<td>' )
-                    .text( protocolMsgs[ e ] ) ) );
-  });
-  return $('#template > .protocolTablePanel' ).clone().show().find('table' ).append( $tbody ).end();
-}
-
-/*
- * Creates the protocol information div.
- * Input: protocolMsgs is an array of strings
- * Output: a JQuery div element containing the table
- */
 function makeProtocolAccordian( protocolMsgs )
 {
   var $tbody = $('<tbody>');
