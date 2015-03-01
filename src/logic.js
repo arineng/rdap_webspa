@@ -186,7 +186,7 @@ function querySuccess( data, textStatus, jqXHR ) {
   if( jqXHR.responseURL ){
     protocolMessages.push( "Response URL: " + jqXHR.responseURL );
   }
-  $('#results' ).append( makeProtocolTable( protocolMessages ) );
+  $('#results' ).append( makeProtocolAccordian( protocolMessages ) );
 }
 
 function queryError() {

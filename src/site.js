@@ -37,6 +37,26 @@ function makeProtocolTable( protocolMsgs )
 }
 
 /*
+ * Creates the protocol information div.
+ * Input: protocolMsgs is an array of strings
+ * Output: a JQuery div element containing the table
+ */
+function makeProtocolAccordian( protocolMsgs )
+{
+  var $tbody = $('<tbody>');
+  $.each( protocolMsgs, function( e ){
+    $tbody.append(  $('<tr>' )
+                      .append( $('<td>' )
+                                 .text( protocolMsgs[ e ] ) ) );
+  });
+  var retval = $('#template > .protoAccordianDivIdClass').clone();
+  retval.find('table').append( $tbody );
+  retval.show();
+  convertClassToId( retval );
+  return retval;
+}
+
+/*
  * Creates a div with a table for result Objectclasses such as
  * Entities, name servers, domains, IP networks, etc...
  * Input: typeName is the name of the objectclass type
