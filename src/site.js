@@ -8,16 +8,14 @@
  */
 
 /*
- * makes the #queryterm div and inserts it after #querycontainer
- * returns the #queryterm div node
+ * makes the #progressBarContainer div and inserts it after #querycontainer
+ * returns the #progressBarContainer div node
  */
-function makeQueryTermDiv( term, description ) {
-  var $queryTerm = $('#template > .queryTermContainer' ).clone().attr( "id", "queryterm" );
-  $queryTerm.prepend( $('<p>Query term is "' + term + '".</p>') );
-  $queryTerm.prepend( $('<p>Query type is ' + description + '.</p>') );
-  $queryTerm.find( '.progress' ).attr( "id", "progressBar" ).show();;
-  $('#dynamicContainers' ).append( $queryTerm );
-  return $queryTerm;
+function makeProgressBarDiv() {
+  var $container = $('#template > .progressBarContainer' ).clone().attr( "id", "progressBarContainer" );
+  $container.find( '.progress' ).attr( "id", "progressBar" ).show();
+  $('#dynamicContainers' ).append( $container );
+  return $container;
 }
 
 /*
@@ -202,7 +200,8 @@ $(document).ready( function() {
     clearDivs();
     var queryText = $('#queryText' ).val().trim();
     var queryType = getQueryType(queryText);
-    makeQueryTermDiv( queryText, queryType.description );
+    prepareForNewQuery( queryText, queryType.description );
+    makeProgressBarDiv();
     doNewQuery( queryType.url( queryText ) );
     return false;
   } );

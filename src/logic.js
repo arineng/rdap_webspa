@@ -161,12 +161,18 @@ function makeTsvData() {
 
 var protocolMessages = null;
 
+function prepareForNewQuery( queryText, queryTypeDescription )
+{
+  protocolMessages = new Array();
+  protocolMessages.push( "Query term is '" + queryText + "'" );
+  protocolMessages.push( "Query type is " + queryTypeDescription );
+}
+
 /*
  * Prepares a new query.
  * Input: the URL of the new query.
  */
 function doNewQuery( url ) {
-  protocolMessages = new Array();
   protocolMessages.push( "Query URL: " + url );
   $.ajax({
            headers: {
