@@ -71,3 +71,12 @@ test("Convert Class to ID" , function() {
   ok( target.find( '#notCuteAtAll' ).length == 0 );
 });
 
+test("Convert Class to ID Uniquified" , function() {
+  var target = $( '#testConvertClassToID' );
+  convertClassToId( target, 1 );
+  ok( target.find( '#cute1' ).length == 1 );
+  ok( target.find( '#veryCute1' ).length == 1 );
+  ok( target.find( '#evenCuter1' ).length == 1 );
+  ok( target.find( '#notCute1' ).length == 0 );
+  ok( target.find( '#notCuteAtAll1' ).length == 0 );
+});

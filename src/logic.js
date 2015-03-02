@@ -197,7 +197,7 @@ function queryComplete() {
   $('#progressBar' ).hide();
 }
 
-function convertClassToId( $jquery ) {
+function convertClassToId( $jquery, uniquifier ) {
   var elems = {};
   $jquery.each( function() {
     var target = $(this);
@@ -210,9 +210,14 @@ function convertClassToId( $jquery ) {
         }
       });
     }
-    convertClassToId( target.children() );
+    convertClassToId( target.children(), uniquifier );
   });
   $.each( elems, function( id, element ) {
-    element.attr( "id", id );
+    var targetId = id;
+    if( typeof uniquifier != "undefined" ){
+      targetId = id + uniquifier;
+    }
+    element.attr( "id", targetId );
   });
+  return $jquery;
 }

@@ -76,6 +76,14 @@ function makeOCTable( typeName, id, data )
 }
 
 /*
+ * Creates the Notices (note the plural) panel.
+ */
+function makeNoticesPanel()
+{
+  return convertClassToId( $('#template > .noticePanel' ).clone().show() );
+}
+
+/*
  * Creates a div panel for RDAP notice.
  * Input: title - string
  *        paragraphs - an array of strings
@@ -83,54 +91,54 @@ function makeOCTable( typeName, id, data )
  *        type - a string of the notice type
  * Output: a JQuery div
  */
-function makeNotice( title, paragraphs, links, type )
+function addNoticeAccordian( noticesPanel, count, title, paragraphs, links, type )
 {
-  var $tbody = $( '<tbody>' )
-          .append( $( '<tr>' )
-                  .append( $( '<td>' )
-                          .attr( "colspan", "2" )
-                          .text( title )
-          )
-  );
+  var $noticeGroup = convertClassToId( $('#template > .noticeGroup' ).clone() , count );
+  $noticeGroup.find( '#noticeHeading' + count )
+    .find( "a" ).attr( 'href', '#noticeData' + count ).attr( 'aria-controls', 'noticeData' + count ).text( title );
+  var $table = $noticeGroup.find( '#noticeData' + count ).attr( 'aria-labelledby', 'noticeHeading' + count )
+    .find( "table" );
+  var $tbody = $( '<tbody>' );
   $tbody.append(
-          $( '<tr>' ).append(
-                  $( '<td>' ).attr( "colspan", "2" )
-                          .append( function ()
-                          {
-                            var ps = [];
-                            $.each( paragraphs, function ( e )
-                            {
-                              ps.push( $( '<p>' ).text( paragraphs[e] ) );
-                            } );
-                            return ps;
-                          }
-                  )
-          )
+    $( '<tr>' ).append(
+      $( '<td>' ).attr( "colspan", "2" )
+        .append( function ()
+                 {
+                   var ps = [];
+                   $.each( paragraphs, function ( e )
+                   {
+                     ps.push( $( '<p>' ).text( paragraphs[e] ) );
+                   } );
+                   return ps;
+                 }
+      )
+    )
   );
   $.each( links, function ( e )
   {
     $tbody.append( $( '<tr>' )
-                    .append( $( '<td>' )
-                            .text( links[e][0] )
-                            .addClass( "isDataLabel" )
-                            .addClass( "hasChildData" )
-            )
-                    .append( $( '<td>' )
-                            .text( links[e][1] )
-            )
+                     .append( $( '<td>' )
+                                .text( links[e][0] )
+                                .addClass( "isDataLabel" )
+                                .addClass( "hasChildData" )
+                   )
+                     .append( $( '<td>' )
+                                .text( links[e][1] )
+                   )
     );
   } );
   $tbody.append( $( '<tr>' )
-                  .append( $( '<td>' )
-                          .text( "Notice Type" )
-                          .addClass( "isDataLabel" )
-                          .addClass( "hasChildData" )
-          )
-                  .append( $( '<td>' )
-                          .text( type )
-          )
+                   .append( $( '<td>' )
+                              .text( "Notice Type" )
+                              .addClass( "isDataLabel" )
+                              .addClass( "hasChildData" )
+                 )
+                   .append( $( '<td>' )
+                              .text( type )
+                 )
   );
-  return $('#template > .noticePanel' ).clone().show().find('table' ).append( $tbody ).end();
+  $table.append( $tbody );
+  noticesPanel.find( "#notices" ).append( $noticeGroup );
 }
 
 /*
@@ -224,17 +232,29 @@ function makeTestResults() {
   $('#clear > a').attr( "href", tsvFile );
 
 
-  //test of the method... remove later
-  $('#results' ).append( makeNotice( "Terms of Use",
-                                     [
-                                       "Bacon ipsum dolor amet turducken kielbasa sirloin tail. Swine cow porchetta doner ham hock turkey. Chicken ham fatback shankle venison turducken tongue biltong short loin beef rump pork belly swine. Shank kielbasa pork picanha beef ribs meatball ground round beef ribeye tri-tip tail meatloaf. Meatball ham hock strip steak landjaeger kevin, venison sausage picanha porchetta. Rump spare ribs bresaola pork chop bacon, hamburger ground round cupim tenderloin ham hock chuck brisket capicola shoulder meatball.",
-                                       "Filet mignon porchetta capicola cow, shank strip steak pancetta boudin tongue venison rump salami kevin. Ham hock shoulder beef boudin capicola pork meatball corned beef flank rump landjaeger. Strip steak doner brisket, short ribs andouille chuck landjaeger sirloin. Ball tip strip steak ham bresaola, meatball jowl ham hock venison pork belly short loin frankfurter ground round hamburger meatloaf rump. Tongue andouille ham hock tenderloin ham short ribs sausage strip steak spare ribs meatloaf prosciutto pork loin.",
-                                       "Leberkas flank alcatra frankfurter chuck cow venison. Ball tip tongue venison ham hock frankfurter andouille ground round. Jerky cow turducken, sirloin spare ribs beef ribs kielbasa bresaola short ribs capicola doner tenderloin porchetta. Pork turducken meatball sausage pork chop beef ribs beef frankfurter. Salami pastrami doner shoulder shank prosciutto turkey t-bone pork brisket chicken. Cow kielbasa cupim andouille shank flank brisket prosciutto.",
-                                       "Doner short loin shank corned beef shankle boudin pastrami leberkas chuck landjaeger tongue. Pancetta pork chop meatball ham hock turkey ribeye. Spare ribs salami ham hock, meatloaf rump frankfurter tri-tip hamburger turkey shankle turducken. Cupim meatloaf pork loin alcatra tenderloin pastrami, landjaeger corned beef shoulder. Cow fatback t-bone ham hock, boudin biltong shoulder. Jerky meatloaf venison beef ribeye jowl strip steak short loin brisket prosciutto.",
-                                       "Ribeye shank frankfurter flank rump venison brisket drumstick shoulder pork loin ham hock tenderloin chuck ham. Kevin shoulder ball tip pork loin capicola short ribs. Ham meatball picanha, tenderloin tongue alcatra kielbasa jerky. Shank ground round jerky cow. Porchetta cow venison cupim tri-tip pork loin jowl pancetta ball tip frankfurter beef corned beef picanha ribeye pork. Ground round capicola salami, drumstick hamburger pancetta rump pork loin."
-                                     ],
-                                     [ [ "Name", "Andy Newton" ], [ "Email", "andy@arin.net" ], [ "Handle", "ALN-ARIN" ] ],
-                                     "Results truncated") );
+  var $noticesPanel = makeNoticesPanel();
+  addNoticeAccordian( $noticesPanel,  1, "Terms of Use",
+                                         [
+                                           "Bacon ipsum dolor amet turducken kielbasa sirloin tail. Swine cow porchetta doner ham hock turkey. Chicken ham fatback shankle venison turducken tongue biltong short loin beef rump pork belly swine. Shank kielbasa pork picanha beef ribs meatball ground round beef ribeye tri-tip tail meatloaf. Meatball ham hock strip steak landjaeger kevin, venison sausage picanha porchetta. Rump spare ribs bresaola pork chop bacon, hamburger ground round cupim tenderloin ham hock chuck brisket capicola shoulder meatball.",
+                                           "Filet mignon porchetta capicola cow, shank strip steak pancetta boudin tongue venison rump salami kevin. Ham hock shoulder beef boudin capicola pork meatball corned beef flank rump landjaeger. Strip steak doner brisket, short ribs andouille chuck landjaeger sirloin. Ball tip strip steak ham bresaola, meatball jowl ham hock venison pork belly short loin frankfurter ground round hamburger meatloaf rump. Tongue andouille ham hock tenderloin ham short ribs sausage strip steak spare ribs meatloaf prosciutto pork loin.",
+                                         ],
+                                         [ [ "Name", "Andy Newton" ], [ "Email", "andy@arin.net" ], [ "Handle", "ALN-ARIN" ] ],
+                                             "Results truncated");
+  addNoticeAccordian( $noticesPanel, 2, "Some Restrictions Apply",
+                                        [
+                                          "Leberkas flank alcatra frankfurter chuck cow venison. Ball tip tongue venison ham hock frankfurter andouille ground round. Jerky cow turducken, sirloin spare ribs beef ribs kielbasa bresaola short ribs capicola doner tenderloin porchetta. Pork turducken meatball sausage pork chop beef ribs beef frankfurter. Salami pastrami doner shoulder shank prosciutto turkey t-bone pork brisket chicken. Cow kielbasa cupim andouille shank flank brisket prosciutto.",
+                                          "Doner short loin shank corned beef shankle boudin pastrami leberkas chuck landjaeger tongue. Pancetta pork chop meatball ham hock turkey ribeye. Spare ribs salami ham hock, meatloaf rump frankfurter tri-tip hamburger turkey shankle turducken. Cupim meatloaf pork loin alcatra tenderloin pastrami, landjaeger corned beef shoulder. Cow fatback t-bone ham hock, boudin biltong shoulder. Jerky meatloaf venison beef ribeye jowl strip steak short loin brisket prosciutto.",
+                                        ],
+                                        [ [ "Name", "Andy Newton" ], [ "Email", "andy@arin.net" ], [ "Handle", "ALN-ARIN" ] ],
+                                             "Results truncated");
+  addNoticeAccordian( $noticesPanel, 3, "Frankfurters Are Free",
+                                        [
+                                          "Ribeye shank frankfurter flank rump venison brisket drumstick shoulder pork loin ham hock tenderloin chuck ham. Kevin shoulder ball tip pork loin capicola short ribs. Ham meatball picanha, tenderloin tongue alcatra kielbasa jerky. Shank ground round jerky cow. Porchetta cow venison cupim tri-tip pork loin jowl pancetta ball tip frankfurter beef corned beef picanha ribeye pork. Ground round capicola salami, drumstick hamburger pancetta rump pork loin."
+                                        ],
+                                        [ [ "Name", "Andy Newton" ], [ "Email", "andy@arin.net" ], [ "Handle", "ALN-ARIN" ] ],
+                                             "Results truncated");
+  $('#results' ).append( $noticesPanel );
+
 
   var defaultData = [
     {
