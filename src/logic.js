@@ -188,6 +188,7 @@ function doNewQuery( url ) {
 }
 
 function querySuccess( data, textStatus, jqXHR ) {
+  noteResponseInfo( data, textStatus, jqXHR );
   makeTestResults();
   if( jqXHR.responseURL ){
     protocolMessages.push( "Response URL: " + jqXHR.responseURL );
@@ -201,6 +202,16 @@ function queryError() {
 
 function queryComplete() {
   $('#progressBar' ).hide();
+}
+
+function noteResponseInfo( data, textStatus, jqXHR )
+{
+  protocolMessages.push( "Server status code: " + jqXHR.status );
+  protocolMessages.push( "Server status: " + textStatus );
+  var rdapConformance = data[ "rdapConformance" ];
+  if( rdapConformance ) {
+    protocolMessages.push( "Server supports: " + rdapConformance );
+  }
 }
 
 function convertClassToId( $jquery, uniquifier ) {
