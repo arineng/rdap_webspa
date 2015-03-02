@@ -189,6 +189,9 @@ function doNewQuery( url ) {
 
 function querySuccess( data, textStatus, jqXHR ) {
   noteResponseInfo( data, textStatus, jqXHR );
+  makeResultsContainer();
+  makeClearContainer();
+  processNotices( data );
   makeTestResults();
   if( jqXHR.responseURL ){
     protocolMessages.push( "Response URL: " + jqXHR.responseURL );
@@ -204,13 +207,23 @@ function queryComplete() {
   $('#progressBar' ).hide();
 }
 
-function noteResponseInfo( data, textStatus, jqXHR )
-{
+function noteResponseInfo( data, textStatus, jqXHR ) {
   protocolMessages.push( "Server status code: " + jqXHR.status );
   protocolMessages.push( "Server status: " + textStatus );
   var rdapConformance = data[ "rdapConformance" ];
   if( rdapConformance ) {
     protocolMessages.push( "Server supports: " + rdapConformance );
+  }
+}
+
+function processNotices( data ) {
+  var notices = data[ "notices" ];
+  if( notices ) {
+    var $noticesPanel = makeNoticesPanel();
+    $.each( notices, function( index, value ) {
+      addNoticeAccordian( $noticesPanel, index, value[ "title" ], value[ "description" ], value[ "links" ], value[ "type" ])
+    });
+    $('#results' ).append( $noticesPanel );
   }
 }
 

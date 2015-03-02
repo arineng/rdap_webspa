@@ -97,44 +97,50 @@ function addNoticeAccordian( noticesPanel, count, title, paragraphs, links, type
   var $table = $noticeGroup.find( '#noticeData' + count ).attr( 'aria-labelledby', 'noticeHeading' + count )
     .find( "table" );
   var $tbody = $( '<tbody>' );
-  $tbody.append(
-    $( '<tr>' ).append(
-      $( '<td>' ).attr( "colspan", "2" )
-        .append( function ()
-                 {
-                   var ps = [];
-                   $.each( paragraphs, function ( e )
+  if( paragraphs ) {
+    $tbody.append(
+      $( '<tr>' ).append(
+        $( '<td>' ).attr( "colspan", "2" )
+          .append( function ()
                    {
-                     ps.push( $( '<p>' ).text( paragraphs[e] ) );
-                   } );
-                   return ps;
-                 }
+                     var ps = [];
+                     $.each( paragraphs, function ( e )
+                     {
+                       ps.push( $( '<p>' ).text( paragraphs[e] ) );
+                     } );
+                     return ps;
+                   }
+        )
       )
-    )
-  );
-  $.each( links, function ( e )
-  {
+    );
+  }
+  if( links ) {
+    $.each( links, function ( e )
+    {
+      $tbody.append( $( '<tr>' )
+                       .append( $( '<td>' )
+                                  .text( links[e][ "rel" ] || links[e][ "type" ] )
+                                  .addClass( "isDataLabel" )
+                                  .addClass( "hasChildData" )
+                     )
+                       .append( $( '<td>' )
+                                  .text( links[e][ "href" ] )
+                     )
+      );
+    } );
+  }
+  if( type ) {
     $tbody.append( $( '<tr>' )
                      .append( $( '<td>' )
-                                .text( links[e][0] )
+                                .text( "Notice Type" )
                                 .addClass( "isDataLabel" )
                                 .addClass( "hasChildData" )
                    )
                      .append( $( '<td>' )
-                                .text( links[e][1] )
+                                .text( type )
                    )
     );
-  } );
-  $tbody.append( $( '<tr>' )
-                   .append( $( '<td>' )
-                              .text( "Notice Type" )
-                              .addClass( "isDataLabel" )
-                              .addClass( "hasChildData" )
-                 )
-                   .append( $( '<td>' )
-                              .text( type )
-                 )
-  );
+  }
   $table.append( $tbody );
   noticesPanel.find( "#notices" ).append( $noticeGroup );
 }
@@ -220,8 +226,10 @@ $(document).ready( function() {
 // this should go away
 function makeTestResults() {
 
+  /*
   makeResultsContainer();
   makeClearContainer();
+  */
 
   if (tsvFile !== null) {
     window.URL.revokeObjectURL(tsvFile);
@@ -231,6 +239,7 @@ function makeTestResults() {
   $('#clear > a').attr( "href", tsvFile );
 
 
+  /*
   var $noticesPanel = makeNoticesPanel();
   addNoticeAccordian( $noticesPanel,  1, "Terms of Use",
                                          [
@@ -253,6 +262,7 @@ function makeTestResults() {
                                         [ [ "Name", "Andy Newton" ], [ "Email", "andy@arin.net" ], [ "Handle", "ALN-ARIN" ] ],
                                              "Results truncated");
   $('#results' ).append( $noticesPanel );
+  */
 
 
   var defaultData = [
