@@ -155,6 +155,31 @@ function getQueryType( queryterm ) {
   return qtObj;
 }
 
+OBJECTCLASS = {
+  IP : {
+    className : "ip network"
+  },
+  ENTITY : {
+    className : "entity"
+  }
+};
+
+function getObjectClass( data ) {
+  var oc;
+  var name = data[ "objectClassName" ];
+  if( name ) {
+    $.each( OBJECTCLASS, function(key,value) {
+      if( value.className == name ) {
+        oc = value;
+        return false;
+      }
+      //else keep iterating
+      return true;
+    });
+  }
+  return oc;
+}
+
 function makeTsvData() {
   return [ "line1", "line2" ];
 }

@@ -61,6 +61,11 @@ test("QUERYTYPEs have descriptions", function() {
   ok( QUERYTYPE.AUTNUM.description, "AUTNUM description")
 });
 
+test("Object Class Name test", function() {
+  equal( getObjectClass( { objectClassName: "ip network" } ), OBJECTCLASS.IP, "is ip network" );
+  equal( getObjectClass( { objectClassName: "entity" } ), OBJECTCLASS.ENTITY, "is entity" );
+});
+
 test("Convert Class to ID" , function() {
   var target = $( '#testConvertClassToID' );
   convertClassToId( target );
