@@ -66,6 +66,38 @@ test("Object Class Name test", function() {
   equal( getObjectClass( { objectClassName: "entity" } ), OBJECTCLASS.ENTITY, "is entity" );
 });
 
+test("Object Class getId test", function() {
+  equal( OBJECTCLASS.IP.getId( { "handle": "NET-10-0-0-0-0" } ), "NET-10-0-0-0-0", "id of ip network");
+  equal( OBJECTCLASS.ENTITY.getId( { "handle": "ABCD-Z" } ), "ABCD-Z", "id of entity");
+});
+
+test("Object Class IP Network getTreeNode test", function() {
+  var data = {
+    "handle":"NET6-2001-0DB8-0-1",
+    "entities":[
+      {
+        "handle":"ARIN-OPS",
+        "entities":[
+          {
+            "handle":"MATTR-ARIN"
+          },
+          {
+            "handle":"MAK21-ARIN",
+          }
+        ]
+      }
+    ]
+  };
+  var test = OBJECTCLASS.IP.getTreeNode( data );
+  equal( test.href, "#NET6-2001-0DB8-0-1", "tree of ip network");
+  equal( test.nodes.length, 1, "one entity in the IP network");
+  equal( test.nodes[0].nodes.length, 2, "two entities in the one entity in the IP network");
+});
+
+test("Object Class Entity getTreeNode test", function() {
+  equal( OBJECTCLASS.ENTITY.getTreeNode( { "handle": "ABC Corp" } ).href, "#ABC%20Corp", "tree of entity");
+});
+
 test("Convert Class to ID" , function() {
   var target = $( '#testConvertClassToID' );
   convertClassToId( target );

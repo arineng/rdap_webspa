@@ -269,7 +269,7 @@ function makeTestResults() {
     {
       text: 'Parent 1',
       href: '#parent1',
-      tags: ['4'],
+      tags: ['4','A'],
       nodes: [
         {
           text: 'Child 1',

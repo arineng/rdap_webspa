@@ -155,12 +155,54 @@ function getQueryType( queryterm ) {
   return qtObj;
 }
 
+/**
+ * This represents information about RDAP Object Classes
+ * The members of each object class object are:
+ * - className = the RDAP value in objectClasName
+ * - typeName = the value passed into makeOCTable
+ * - getId = a function to get the ID of an object to be passed into makeOCTable
+ * @type {{IP: {className: string, typeName: string}, ENTITY: {className: string, typeName: string}}}
+ */
 OBJECTCLASS = {
   IP : {
-    className : "ip network"
+    className : "ip network",
+    typeName : "IP Network",
+    getId: function( data ) {
+      return data[ "handle" ];
+    },
+    getTreeNode: function( data ) {
+      var treeNode = {};
+      treeNode[ "text" ] = this.getId( data );
+      treeNode[ "href" ] = "#" + encodeURIComponent( this.getId( data ) );
+      if( data[ "entities" ] ) {
+        var nodes = [];
+        $.each( data[ "entities" ], function( i, v ){
+          nodes.push( OBJECTCLASS.ENTITY.getTreeNode( v ) );
+        });
+        treeNode[ "nodes" ] = nodes;
+      }
+      return treeNode;
+    }
   },
   ENTITY : {
-    className : "entity"
+    className : "entity",
+    typeName : "Entity",
+    getId: function( data ) {
+      return data[ "handle" ];
+    },
+    getTreeNode: function( data ) {
+      var treeNode = {};
+      treeNode[ "text" ] = this.getId( data );
+      treeNode[ "href" ] = "#" + encodeURIComponent( this.getId( data ) );
+      if( data[ "entities" ] ) {
+        var nodes = [];
+        $.each( data[ "entities" ], function( i, v ){
+          nodes.push( OBJECTCLASS.ENTITY.getTreeNode( v ) );
+        });
+        treeNode[ "nodes" ] = nodes;
+      }
+      return treeNode;
+    }
   }
 };
 
