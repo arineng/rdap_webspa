@@ -190,7 +190,12 @@ OBJECTCLASS = {
         [ "name", "Name" ],
         [ "type", "Type" ],
         [ "parentHandle", "Parent Handle" ],
-        [ "ipVersion", "IP Version" ]
+        [ "ipVersion", "IP Version" ],
+        [ "country", "Country" ],
+        [ "status", "Status" ],
+        [ "roles", "Roles" ],
+        [ "status", "Status" ],
+        [ "port43", "Port 43 Whois" ]
       ]);
       return ocData;
     }
@@ -211,8 +216,9 @@ OBJECTCLASS = {
       ocData.tableData = [];
       pushColumnData( data, ocData.tableData, [
         [ "handle", "Handle" ],
-        [ "startAddress", "Start Address" ],
-        [ "endAddress", "End Address" ]
+        [ "roles", "Roles" ],
+        [ "status", "Status" ],
+        [ "port43", "Port 43 Whois" ]
       ]);
       return ocData;
     }
@@ -389,4 +395,12 @@ function convertClassToId( $jquery, uniquifier ) {
     element.attr( "id", targetId );
   });
   return $jquery;
+}
+
+function capitalize( someString ) {
+  var retval = "";
+  $.each( someString.split( " " ), function( i, v ) {
+    retval = retval + v.charAt( 0 ).toUpperCase() + v.substr( 1 ) + " ";
+  });
+  return retval.trim();
 }

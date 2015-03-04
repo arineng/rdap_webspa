@@ -117,3 +117,7 @@ test("Convert Class to ID Uniquified" , function() {
   ok( target.find( '#notCute1' ).length == 0 );
   ok( target.find( '#notCuteAtAll1' ).length == 0 );
 });
+
+test("Capitalize", function() {
+  equal( capitalize( "the brown fox" ), "The Brown Fox" );
+});
