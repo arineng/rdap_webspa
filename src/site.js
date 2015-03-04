@@ -268,21 +268,25 @@ function makeTestResults() {
   var defaultData = [
     {
       text: 'Parent 1',
+      ocData: { handle: "p1" },
       href: '#parent1',
       tags: ['4','A'],
       nodes: [
         {
           text: 'Child 1',
+          ocData: { handle: "c1" },
           href: '#child1',
           tags: ['2'],
           nodes: [
             {
               text: 'Grandchild 1',
+              ocData: { handle: "gc1" },
               href: '#grandchild1',
               tags: ['0']
             },
             {
               text: 'Grandchild 2',
+              ocData: { handle: "gc2" },
               href: '#grandchild2',
               tags: ['0']
             }
@@ -290,6 +294,7 @@ function makeTestResults() {
         },
         {
           text: 'Child 2',
+          ocData: { handle: "c2" },
           href: '#child2',
           tags: ['0']
         }
@@ -297,21 +302,25 @@ function makeTestResults() {
     },
     {
       text: 'Parent 2',
+      ocData: { handle: "p2" },
       href: '#parent2',
       tags: ['0']
     },
     {
       text: 'Parent 3',
+      ocData: { handle: "p3" },
       href: '#parent3',
       tags: ['0']
     },
     {
       text: 'Parent 4',
+      ocData: { handle: "p4" },
       href: '#parent4',
       tags: ['0']
     },
     {
       text: 'Parent 5',
+      ocData: { handle: "p5" },
       href: '#parent5'  ,
       tags: ['0']
     }
@@ -331,7 +340,8 @@ function makeTestResults() {
 
 
   //test of the method... remove later
-  $('#treeview' ).on('nodeSelected', function() {
+  $('#treeview' ).on('nodeSelected', function( event, node ) {
+    console.log( node.ocData );
     $('#dataview > div' ).remove();
     $('#dataview' ).append( makeOCTable( "Entity", "ALN-ARIN",
                                          [ [ "Name", "Andy Newton" ], [ "Email", "andy@arin.net" ], [ "Handle", "ALN-ARIN" ] ] ) );
