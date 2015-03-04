@@ -161,7 +161,12 @@ function getQueryType( queryterm ) {
  * - className = the RDAP value in objectClasName
  * - typeName = the value passed into makeOCTable
  * - getId = a function to get the ID of an object to be passed into makeOCTable
- * @type {{IP: {className: string, typeName: string}, ENTITY: {className: string, typeName: string}}}
+ * - getTreeNode = gets a node object for the bootstrap tree
+ * - getOCData = gets an ocData object for the object class
+ *     the ocData object consists of:
+ *       typeName  - string
+ *       id        - string
+ *       tableData - array of string arrays, [0]=column name, [1]=column value
  */
 OBJECTCLASS = {
   IP : {
@@ -171,17 +176,23 @@ OBJECTCLASS = {
       return data[ "handle" ];
     },
     getTreeNode: function( data ) {
-      var treeNode = {};
-      treeNode[ "text" ] = this.getId( data );
-      treeNode[ "href" ] = "#" + encodeURIComponent( this.getId( data ) );
-      if( data[ "entities" ] ) {
-        var nodes = [];
-        $.each( data[ "entities" ], function( i, v ){
-          nodes.push( OBJECTCLASS.ENTITY.getTreeNode( v ) );
-        });
-        treeNode[ "nodes" ] = nodes;
-      }
-      return treeNode;
+      return getStandardTreeNode( this, data );
+    },
+    getOCData: function( data ) {
+      var ocData = {};
+      ocData.typeName = this.typeName;
+      ocData.id = this.getId( data );
+      ocData.tableData = [];
+      pushColumnData( data, ocData.tableData, [
+        [ "handle", "Handle" ],
+        [ "startAddress", "Start Address" ],
+        [ "endAddress", "End Address" ],
+        [ "name", "Name" ],
+        [ "type", "Type" ],
+        [ "parentHandle", "Parent Handle" ],
+        [ "ipVersion", "IP Version" ]
+      ]);
+      return ocData;
     }
   },
   ENTITY : {
@@ -191,20 +202,56 @@ OBJECTCLASS = {
       return data[ "handle" ];
     },
     getTreeNode: function( data ) {
-      var treeNode = {};
-      treeNode[ "text" ] = this.getId( data );
-      treeNode[ "href" ] = "#" + encodeURIComponent( this.getId( data ) );
-      if( data[ "entities" ] ) {
-        var nodes = [];
-        $.each( data[ "entities" ], function( i, v ){
-          nodes.push( OBJECTCLASS.ENTITY.getTreeNode( v ) );
-        });
-        treeNode[ "nodes" ] = nodes;
-      }
-      return treeNode;
+      return getStandardTreeNode( this, data );
+    },
+    getOCData: function( data ) {
+      var ocData = {};
+      ocData.typeName = this.typeName;
+      ocData.id = this.getId( data );
+      ocData.tableData = [];
+      pushColumnData( data, ocData.tableData, [
+        [ "handle", "Handle" ],
+        [ "startAddress", "Start Address" ],
+        [ "endAddress", "End Address" ]
+      ]);
+      return ocData;
     }
   }
 };
+
+/**
+ * Convience method for pushing tableData.
+ * data - the JSON data
+ * tableData - the table data
+ * nameArray - array of string arrays which are [0]=jsonName, [1]=columnName
+ */
+function pushColumnData( data, tableData, nameArray ) {
+  $.each( nameArray, function( i, v ) {
+    var columnValue = data[ v[0] ];
+    if( columnValue ) {
+      tableData.push( [ v[1], columnValue ] );
+    }
+  });
+}
+
+/**
+ * Gets a standard tree node. Should work for most object classes.
+ * @param data
+ */
+function getStandardTreeNode( objectClass, data ) {
+  var treeNode = {};
+  treeNode[ "text" ] = objectClass.getId( data );
+  treeNode[ "href" ] = "#" + encodeURIComponent( objectClass.getId( data ) );
+  if( data[ "entities" ] ) {
+    var nodes = [];
+    $.each( data[ "entities" ], function( i, v ){
+      nodes.push( OBJECTCLASS.ENTITY.getTreeNode( v ) );
+    });
+    treeNode[ "nodes" ] = nodes;
+  }
+  treeNode.ocData = objectClass.getOCData( data );
+  return treeNode;
+}
 
 function getObjectClass( data ) {
   var oc;
@@ -259,6 +306,31 @@ function querySuccess( data, textStatus, jqXHR ) {
   makeResultsContainer();
   makeClearContainer();
   processNotices( data );
+
+  objectClass = getObjectClass( data );
+  if( objectClass ) {
+
+    $('#results' ).append( makeTreeDataViews() );
+
+    var treeData = [];
+    treeData.push( objectClass.getTreeNode( data ) );
+    $('#treeview').treeview({
+      color: "#428bca",
+      expandIcon: "glyphicon glyphicon-stop",
+      collapseIcon: "glyphicon glyphicon-unchecked",
+      nodeIcon: "glyphicon glyphicon-user",
+      showTags: true,
+      data: treeData
+    });
+
+    $('#dataview' ).append( makeOCTable( treeData[0].ocData ) );
+
+    $('#treeview' ).on('nodeSelected', function( event, node ) {
+      $('#dataview > div' ).remove();
+      $('#dataview' ).append( makeOCTable( node.ocData ) );
+    });
+  }
+
   makeTestResults();
   if( jqXHR.responseURL ){
     protocolMessages.push( "Response URL: " + jqXHR.responseURL );

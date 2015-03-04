@@ -41,34 +41,31 @@ function makeProtocolAccordian( protocolMsgs )
 /*
  * Creates a div with a table for result Objectclasses such as
  * Entities, name servers, domains, IP networks, etc...
- * Input: typeName is the name of the objectclass type
- *        id is the identifier for the particular instance
- *        data is an array or arrays, with the inner array containing
- *          two strings: data item name and the data item
+ * Input: ocData as described by OBJECTCLASS
  * Output: a JQuery div
  */
-function makeOCTable( typeName, id, data )
+function makeOCTable( ocData )
 {
   var $tbody = $('<tbody>');
-  $.each( data, function( e ){
+  $.each( ocData.tableData, function( e ){
     $tbody.append(  $('<tr>' )
             .append( $('<td>' )
-                    .text( data[ e ][ 0 ] )
+                    .text( ocData.tableData[ e ][ 0 ] )
                     .addClass( "isDataLabel" )
                     .addClass( "hasChildData" )
                    )
             .append( $('<td>' )
-                    .text( data[ e ][ 1 ] )
+                    .text( ocData.tableData[ e ][ 1 ] )
                    )
                  );
   });
   return $('#template > .ocTablePanel' ).clone().show().find('table' )
     .append( $tbody )
     .find('th:first-child')
-      .text( typeName )
+      .text( ocData.typeName )
       .end()
     .find('th:last-child')
-      .text( id )
+      .text( ocData.id )
       .end()
     .end();
 }
@@ -265,6 +262,7 @@ function makeTestResults() {
   */
 
 
+  /*
   var defaultData = [
     {
       text: 'Parent 1',
@@ -346,6 +344,7 @@ function makeTestResults() {
     $('#dataview' ).append( makeOCTable( "Entity", "ALN-ARIN",
                                          [ [ "Name", "Andy Newton" ], [ "Email", "andy@arin.net" ], [ "Handle", "ALN-ARIN" ] ] ) );
   });
+  */
 
 }
 
