@@ -167,6 +167,7 @@ function getQueryType( queryterm ) {
  *       typeName  - string
  *       id        - string
  *       tableData - array of string arrays, [0]=column name, [1]=column value
+ *       events    - as seen in the RDAP spec
  */
 OBJECTCLASS = {
   IP : {
@@ -179,12 +180,8 @@ OBJECTCLASS = {
       return getStandardTreeNode( this, data );
     },
     getOCData: function( data ) {
-      var ocData = {};
-      ocData.typeName = this.typeName;
-      ocData.id = this.getId( data );
-      ocData.tableData = [];
+      var ocData = getStandardOCData( this, data );
       pushColumnData( data, ocData.tableData, [
-        [ "handle", "Handle" ],
         [ "startAddress", "Start Address" ],
         [ "endAddress", "End Address" ],
         [ "name", "Name" ],
@@ -192,10 +189,6 @@ OBJECTCLASS = {
         [ "parentHandle", "Parent Handle" ],
         [ "ipVersion", "IP Version" ],
         [ "country", "Country" ],
-        [ "status", "Status" ],
-        [ "roles", "Roles" ],
-        [ "status", "Status" ],
-        [ "port43", "Port 43 Whois" ]
       ]);
       return ocData;
     }
@@ -210,17 +203,7 @@ OBJECTCLASS = {
       return getStandardTreeNode( this, data );
     },
     getOCData: function( data ) {
-      var ocData = {};
-      ocData.typeName = this.typeName;
-      ocData.id = this.getId( data );
-      ocData.tableData = [];
-      pushColumnData( data, ocData.tableData, [
-        [ "handle", "Handle" ],
-        [ "roles", "Roles" ],
-        [ "status", "Status" ],
-        [ "port43", "Port 43 Whois" ]
-      ]);
-      return ocData;
+      return getStandardOCData( this, data );
     }
   }
 };
@@ -240,9 +223,17 @@ function pushColumnData( data, tableData, nameArray ) {
   });
 }
 
+function pushColumnListData( data, tableData, nameArray ) {
+  $.each( nameArray, function( i, v ) {
+    var columnValue = data[ v[0] ];
+    if( columnValue ) {
+      tableData.push( [ v[1], capitalizedList( columnValue ) ] );
+    }
+  });
+}
+
 /**
  * Gets a standard tree node. Should work for most object classes.
- * @param data
  */
 function getStandardTreeNode( objectClass, data ) {
   var treeNode = {};
@@ -257,6 +248,23 @@ function getStandardTreeNode( objectClass, data ) {
   }
   treeNode.ocData = objectClass.getOCData( data );
   return treeNode;
+}
+
+function getStandardOCData( objectClass, data ) {
+  var ocData = {};
+  ocData.typeName = objectClass.typeName;
+  ocData.id = objectClass.getId( data );
+  ocData.tableData = [];
+  pushColumnData( data, ocData.tableData, [
+    [ "handle", "Handle" ],
+    [ "port43", "Port 43 Whois" ]
+  ]);
+  pushColumnListData( data, ocData.tableData, [
+    [ "status", "Status" ],
+    [ "roles", "Roles" ]
+  ]);
+  ocData.events = data[ "events" ];
+  return ocData;
 }
 
 function getObjectClass( data ) {
@@ -403,4 +411,15 @@ function capitalize( someString ) {
     retval = retval + v.charAt( 0 ).toUpperCase() + v.substr( 1 ) + " ";
   });
   return retval.trim();
+}
+
+function capitalizedList( arrayOfStrings ) {
+  var retval = "";
+  for (var i = 0; i < arrayOfStrings.length; i++) {
+    if( i > 0 ) {
+      retval = retval + ", ";
+    }
+    retval = retval + capitalize( arrayOfStrings[ i ] );
+  }
+  return retval;
 }

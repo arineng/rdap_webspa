@@ -121,3 +121,7 @@ test("Convert Class to ID Uniquified" , function() {
 test("Capitalize", function() {
   equal( capitalize( "the brown fox" ), "The Brown Fox" );
 });
+
+test("Capitalize List", function() {
+  equal( capitalizedList( [ "administrative", "subjunctive", "reductive" ] ), "Administrative, Subjunctive, Reductive" );
+});

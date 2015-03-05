@@ -47,18 +47,36 @@ function makeProtocolAccordian( protocolMsgs )
 function makeOCTable( ocData )
 {
   var $tbody = $('<tbody>');
-  $.each( ocData.tableData, function( e ){
-    $tbody.append(  $('<tr>' )
-            .append( $('<td>' )
-                    .text( ocData.tableData[ e ][ 0 ] )
-                    .addClass( "isDataLabel" )
-                    .addClass( "hasChildData" )
-                   )
-            .append( $('<td>' )
-                    .text( ocData.tableData[ e ][ 1 ] )
-                   )
-                 );
-  });
+  if( ocData.tableData )
+  {
+    $.each( ocData.tableData, function( e ){
+      $tbody.append(  $('<tr>' )
+                        .append( $('<td>' )
+                                   .text( ocData.tableData[ e ][ 0 ] )
+                                   .addClass( "isDataLabel" )
+                                   .addClass( "hasChildData" )
+                      )
+                        .append( $('<td>' )
+                                   .text( ocData.tableData[ e ][ 1 ] )
+                      )
+      );
+    });
+  }
+  if( ocData.events )
+  {
+    $.each( ocData.events, function( e ){
+      $tbody.append(  $('<tr>' )
+                        .append( $('<td>' )
+                                   .text( capitalize( ocData.events[ e ].eventAction || "Event" ) )
+                                   .addClass( "isDataLabel" )
+                                   .addClass( "hasChildData" )
+                      )
+                        .append( $('<td>' )
+                                   .text( formatEventDateAndActor( ocData.events[ e ].eventDate, ocData.events[ e ].eventActor ) )
+                      )
+      );
+    });
+  }
   return $('#template > .ocTablePanel' ).clone().show().find('table' )
     .append( $tbody )
     .find('th:first-child')
@@ -68,6 +86,18 @@ function makeOCTable( ocData )
       .text( ocData.id )
       .end()
     .end();
+}
+
+function formatEventDateAndActor( eventDate, eventActor ) {
+  var retval = "";
+  if( eventDate ) {
+    var date = new Date( Date.parse( eventDate ) );
+    retval = retval + date.toUTCString() + " (" + date.toDateString() + " local time) ";
+  }
+  if( eventActor ) {
+    retval = retval + "by " + eventActor;
+  }
+  return retval.trim();;
 }
 
 /*
