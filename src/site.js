@@ -81,12 +81,26 @@ function makeOCTable( ocData )
     $.each( ocData.links, function( e ) {
       $tbody.append(  $('<tr>' )
                         .append( $('<td>' )
-                                   .text( capitalize( ocData.links[ e ].rel || "Event" ) )
+                                   .text( capitalize( ocData.links[ e ].rel || ocData.links[ e ].type ) )
                                    .addClass( "isDataLabel" )
                                    .addClass( "hasChildData" )
                       )
                         .append( $('<td>' )
                                    .append( getJQueryForLink( ocData.links[ e ] ) )
+                      )
+      );
+    });
+  }
+  if( ocData.remarks ) {
+    $.each( ocData.remarks, function( e ) {
+      $tbody.append(  $('<tr>' )
+                        .append( $('<td>' )
+                                   .text( "Remarks" + (ocData.remarks[e].type ? "(" + capitalize( ocData.remarks[ e ].type ) + ")" : "") )
+                                   .addClass( "isDataLabel" )
+                                   .addClass( "hasChildData" )
+                      )
+                        .append( $('<td>' )
+                                   .append( getJQueryForRemarks( ocData.remarks[ e ] ) )
                       )
       );
     });
@@ -102,6 +116,23 @@ function makeOCTable( ocData )
     .end();
 }
 
+function getJQueryForRemarks( remark ) {
+  var $retval = $('<div>');
+  if( remark.description ) {
+    for( var i = 0; i < remark.description.length; i++ ) {
+      $retval.append( $('<p>' ).text( remark.description[ i ] ) );
+    }
+  }
+  if( remark.links ) {
+    for( var i = 0; i < remark.links.length; i++ ) {
+      $retval.append(
+        $('<p>' ).append( getJQueryForLink( remark.links[ i ] ) )
+      );
+    }
+  }
+  return $retval;
+}
+
 function formatEventDateAndActor( eventDate, eventActor ) {
   var retval = "";
   if( eventDate ) {
@@ -111,7 +142,7 @@ function formatEventDateAndActor( eventDate, eventActor ) {
   if( eventActor ) {
     retval = retval + "by " + eventActor;
   }
-  return retval.trim();;
+  return retval.trim();
 }
 
 /*

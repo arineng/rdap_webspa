@@ -185,6 +185,7 @@ function getQueryType( queryterm ) {
  *       tableData - array of string arrays, [0]=column name, [1]=column value
  *       events    - as seen in the RDAP spec
  *       links     - as seen in the RDAP spec
+ *       remarks   - as seen in the RDAP spec
  */
 OBJECTCLASS = {
   IP : {
@@ -282,6 +283,7 @@ function getStandardOCData( objectClass, data ) {
   ]);
   ocData.links = data[ "links" ];
   ocData.events = data[ "events" ];
+  ocData.remarks = data[ "remarks" ];
   return ocData;
 }
 
