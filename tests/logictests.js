@@ -125,3 +125,8 @@ test("Capitalize", function() {
 test("Capitalize List", function() {
   equal( capitalizedList( [ "administrative", "subjunctive", "reductive" ] ), "Administrative, Subjunctive, Reductive" );
 });
+
+test("Get Param", function() {
+  equal( getParam( "q", "http://stupid.com?q=1.1.1.1" ), "1.1.1.1" );
+  equal( getParam( "q", "?q=1.1.1.1" ), "1.1.1.1" );
+});

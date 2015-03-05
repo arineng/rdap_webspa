@@ -247,6 +247,11 @@ $(document).ready( function() {
     }
   });
 
+  var q = getParam( "q" );
+  if( q ) {
+    $('#queryText' ).val( decodeURIComponent( q ) );
+    $('#queryform' ).trigger( "submit" );
+  }
 
 });
 
