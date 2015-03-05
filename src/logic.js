@@ -184,6 +184,7 @@ function getQueryType( queryterm ) {
  *       id        - string
  *       tableData - array of string arrays, [0]=column name, [1]=column value
  *       events    - as seen in the RDAP spec
+ *       links     - as seen in the RDAP spec
  */
 OBJECTCLASS = {
   IP : {
@@ -279,6 +280,7 @@ function getStandardOCData( objectClass, data ) {
     [ "status", "Status" ],
     [ "roles", "Roles" ]
   ]);
+  ocData.links = data[ "links" ];
   ocData.events = data[ "events" ];
   return ocData;
 }
@@ -422,22 +424,28 @@ function convertClassToId( $jquery, uniquifier ) {
 }
 
 function capitalize( someString ) {
-  var retval = "";
-  $.each( someString.split( " " ), function( i, v ) {
-    retval = retval + v.charAt( 0 ).toUpperCase() + v.substr( 1 ) + " ";
-  });
-  return retval.trim();
+  if( someString ) {
+    var retval = "";
+    $.each( someString.split( " " ), function ( i, v )
+    {
+      retval = retval + v.charAt( 0 ).toUpperCase() + v.substr( 1 ) + " ";
+    }
+    );
+    return retval.trim();
+  }
 }
 
 function capitalizedList( arrayOfStrings ) {
-  var retval = "";
-  for (var i = 0; i < arrayOfStrings.length; i++) {
-    if( i > 0 ) {
-      retval = retval + ", ";
+  if( arrayOfStrings ) {
+    var retval = "";
+    for (var i = 0; i < arrayOfStrings.length; i++) {
+      if( i > 0 ) {
+        retval = retval + ", ";
+      }
+      retval = retval + capitalize( arrayOfStrings[ i ] );
     }
-    retval = retval + capitalize( arrayOfStrings[ i ] );
+    return retval;
   }
-  return retval;
 }
 
 function getParam(name, url) {
@@ -450,3 +458,4 @@ function getParam(name, url) {
   }
   return results[1] || undefined;
 }
+

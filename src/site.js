@@ -77,6 +77,20 @@ function makeOCTable( ocData )
       );
     });
   }
+  if( ocData.links ) {
+    $.each( ocData.links, function( e ) {
+      $tbody.append(  $('<tr>' )
+                        .append( $('<td>' )
+                                   .text( capitalize( ocData.links[ e ].rel || "Event" ) )
+                                   .addClass( "isDataLabel" )
+                                   .addClass( "hasChildData" )
+                      )
+                        .append( $('<td>' )
+                                   .append( getJQueryForLink( ocData.links[ e ] ) )
+                      )
+      );
+    });
+  }
   return $('#template > .ocTablePanel' ).clone().show().find('table' )
     .append( $tbody )
     .find('th:first-child')
@@ -146,12 +160,12 @@ function addNoticeAccordian( noticesPanel, count, title, paragraphs, links, type
     {
       $tbody.append( $( '<tr>' )
                        .append( $( '<td>' )
-                                  .text( links[e][ "rel" ] || links[e][ "type" ] )
+                                  .text( capitalize( links[e][ "rel" ] ) || links[e][ "type" ] )
                                   .addClass( "isDataLabel" )
                                   .addClass( "hasChildData" )
                      )
                        .append( $( '<td>' )
-                                  .text( links[e][ "href" ] )
+                                  .append( getJQueryForLink( links[e] ) )
                      )
       );
     } );
@@ -260,6 +274,22 @@ $(document).ready( function() {
   }
 
 });
+
+/**
+ * Where a link is the RDAP link structure
+ * @param link
+ */
+function getJQueryForLink( link ) {
+  if( link.type == "text/html" || link.type == "application/xhtml+xml" ) {
+    return $("<a>" ).text( link.href ).attr( "href", link.href );
+  }
+  else if( link.type == "application/rdap+json" ) {
+    return $("<a>" ).text( link.href ).attr( "href", window.location.href.split( 'q' )[ 0 ] + encodeURIComponent( link.href ) );
+  }
+  //else
+  protocolMessages.push( "link to " + link.href + " has no given media type");
+  return $("<span>" ).text( link.href );
+}
 
 // this should go away
 function makeTestResults() {
