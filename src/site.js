@@ -253,6 +253,12 @@ $(document).ready( function() {
     $('#queryform' ).trigger( "submit" );
   }
 
+  var url = getParam( "url" );
+  if( url ) {
+    $('#queryText' ).val( decodeURIComponent( url ) );
+    $('#queryform' ).trigger( "submit" );
+  }
+
 });
 
 // this should go away

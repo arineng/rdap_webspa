@@ -37,6 +37,10 @@ test("getQueryType tests", function() {
   equal( getQueryType( "as10204" ), QUERYTYPE.AUTNUM, "is AUTNUM" );
   equal( getQueryType( "As10204" ), QUERYTYPE.AUTNUM, "is AUTNUM" );
   equal( getQueryType( "AS10204" ), QUERYTYPE.AUTNUM, "is AUTNUM" );
+  equal( getQueryType( "http://rdap.apnic.net/ip/1.1.1.1" ), QUERYTYPE.URL, "is URL" );
+  equal( getQueryType( "https://rdap.apnic.net/ip/1.1.1.1" ), QUERYTYPE.URL, "is URL" );
+  equal( getQueryType( "http%3A%2F%2Frdap.apnic.net%2Fip%2F1.1.1.1" ), QUERYTYPE.URL, "is URL" );
+  equal( getQueryType( "https%3A%2F%2Frdap.apnic.net%2Fip%2F1.1.1.1" ), QUERYTYPE.URL, "is URL" );
 });
 
 test("queryTest URL tests", function() {
@@ -51,6 +55,8 @@ test("queryTest URL tests", function() {
   equal( QUERYTYPE.AUTNUM.url( "as10204" ), BASEURL + "autnum/10204", "AUTNUM query URL" );
   equal( QUERYTYPE.AUTNUM.url( "As10204" ), BASEURL + "autnum/10204", "AUTNUM query URL" );
   equal( QUERYTYPE.AUTNUM.url( "AS10204" ), BASEURL + "autnum/10204", "AUTNUM query URL" );
+  equal( QUERYTYPE.URL.url( "http://rdap.apnic.net/ip/1.1.1.1" ), "http://rdap.apnic.net/ip/1.1.1.1", "URL query URL" );
+  equal( QUERYTYPE.URL.url( "http%3A%2F%2Frdap.apnic.net%2Fip%2F1.1.1.1" ), "http://rdap.apnic.net/ip/1.1.1.1", "URL query URL" );
 });
 
 test("QUERYTYPEs have descriptions", function() {
@@ -82,7 +88,7 @@ test("Object Class IP Network getTreeNode test", function() {
             "handle":"MATTR-ARIN"
           },
           {
-            "handle":"MAK21-ARIN",
+            "handle":"MAK21-ARIN"
           }
         ]
       }

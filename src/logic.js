@@ -22,7 +22,7 @@ IPV6_HEXCOMPRESS_REGEX = /^((?:[0-9A-Fa-f]{1,4}(?::[0-9A-Fa-f]{1,4})*)?)::((?:[0
 CIDR4_LENGTH_REGEX = /^3[0-2]|[0-2]?\d$/;
 CIDR6_LENGTH_REGEX = /^12[0-8]|1[0-1]\d|\d?\d$/;
 
-AUTNUM_REGEX = /((a|A)(s|S))?[0-9]{1,10}/;
+AUTNUM_REGEX = /^((a|A)(s|S))?[0-9]{1,10}/;
 
 /*
  * This is an object that describes the query terms.
@@ -137,6 +137,22 @@ QUERYTYPE = {
     },
     url : function ( queryterm ) {
       return BASEURL;
+    }
+  },
+  URL : {
+    description : "an RDAP URL",
+    match : function ( queryterm ) {
+      if( queryterm.lastIndexOf( "http%3A%2F%2F", 0 ) === 0 ||
+          queryterm.lastIndexOf( "https%3A%2F%2F", 0 ) === 0 ||
+          queryterm.lastIndexOf( "http://", 0 ) === 0 ||
+          queryterm.lastIndexOf( "https://", 0 ) === 0 ) {
+        return true;
+      }
+      //else
+      return false;
+    },
+    url : function ( queryterm ) {
+      return decodeURIComponent( queryterm );
     }
   }
 };
