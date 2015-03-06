@@ -221,7 +221,49 @@ OBJECTCLASS = {
       return getStandardTreeNode( this, data );
     },
     getOCData: function( data ) {
-      return getStandardOCData( this, data );
+      var ocData = getStandardOCData( this, data );
+      if( data[ "vcardArray" ] && data["vcardArray"][ 1 ] ) {
+        $.each( data[ "vcardArray" ][ 1 ], function( i, v ) {
+          switch( v[ 0 ] ) {
+            case "fn":
+              ocData.tableData.push( [ "Full Name", v[ 3 ] ] );
+              break;
+            case "n":
+              var columnValue = "";
+              $.each( v[ 3 ], function( ni, nv ) {
+                if( Array.isArray( nv ) ) {
+                  $.each( nv, function( ani, anv ) {
+                    columnValue = columnValue + anv;
+                  });
+                }
+                else {
+                  columnValue = columnValue + nv;
+                }
+              } );
+              ocData.tableData.push( [ "Name", columnValue ] );
+              break;
+            case "kind":
+              ocData.tableData.push( [ "Kind", capitalize( v[3] ) ] );
+              break;
+            case "title":
+              ocData.tableData.push( [ "Title", v[3] ] );
+              break;
+            case "role":
+              ocData.tableData.push( [ "Role", v[3] ] );
+              break;
+            case "org":
+              ocData.tableData.push( [ "Organization" + formatJCardType( v[1] ), v[3] ] );
+              break;
+            case "tel":
+              ocData.tableData.push( [ "Telephone" + formatJCardType( v[1] ),formatJCardUri( v[2], v[3] ) ] );
+              break;
+            case "email":
+              ocData.tableData.push( [ "Email" + formatJCardType( v[1] ),formatJCardUri( v[2], v[3] ) ] );
+              break;
+          }
+        });
+      }
+      return ocData;
     }
   }
 };
@@ -279,12 +321,32 @@ function getStandardOCData( objectClass, data ) {
   ]);
   pushColumnListData( data, ocData.tableData, [
     [ "status", "Status" ],
-    [ "roles", "Roles" ]
+    [ "roles", "Entity Roles" ]
   ]);
   ocData.links = data[ "links" ];
   ocData.events = data[ "events" ];
   ocData.remarks = data[ "remarks" ];
   return ocData;
+}
+
+function formatJCardType( data ) {
+  if( data && data[ "type" ] ) {
+    if( Array.isArray( data[ "type" ] ) ) {
+      return " (" + capitalizedList( data[ "type" ] ) + ")";
+    }
+    //else
+    return " (" + capitalize( data[ "type" ] ) + ")";
+  }
+  //else
+  return "";
+}
+
+function formatJCardUri( type, uri ) {
+  if( type == "uri" ) {
+    return '<a href="phone">' + uri.substr( uri.indexOf( ':' )+1 ) + '</a>';
+  }
+  //else
+  return uri;
 }
 
 function getObjectClass( data ) {
