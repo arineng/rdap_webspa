@@ -59,7 +59,7 @@ tr > td {
     overflow: hidden;
 }
 
-#clear > button {
+#clear > div > div > button {
     float: right;
     position: relative;
 }

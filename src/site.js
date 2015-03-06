@@ -242,11 +242,12 @@ function makeResultsContainer(){
  * Appends the clear container
  */
 function makeClearContainer(){
-  var $clearContainer = $('#template > .clearContainer' ).clone().attr( "id", "clear" ).show();
+  var $clearContainer = convertClassToId( $('#template > .clearIdClass' ).clone() ).show();
   $('#dynamicContainers' ).append( $clearContainer );
-  $('#clear > button' ).click( function() {
+  $('#clearBtn' ).click( function() {
     clearDivs();
   });
+  $('#qlink' ).attr( "href", window.location.href.split( '?' )[0] + "?q=" + encodeURIComponent( $('#queryText' ).val().trim() ) );
   return $clearContainer
 }
 
@@ -335,7 +336,7 @@ function makeTestResults() {
   }
   var data = new Blob( makeTsvData(),{type: "text/plain"});
   tsvFile = window.URL.createObjectURL(data);
-  $('#clear > a').attr( "href", tsvFile );
+  $('#download').attr( "href", tsvFile );
 
 
   /*
