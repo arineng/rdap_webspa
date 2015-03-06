@@ -260,6 +260,16 @@ OBJECTCLASS = {
             case "email":
               ocData.tableData.push( [ "Email" + formatJCardType( v[1] ),formatJCardUri( v[2], v[3] ) ] );
               break;
+            case "adr":
+              if( v[1].label ) {
+                //unstructred address
+                pushJCardAdr( ocData.tableData, v[1], v[1].label.split( "\\n" ) );
+              }
+              else {
+                //structured address
+                pushJCardAdr( ocData.tableData, v[1], v[3] );
+              }
+              break;
           }
         });
       }
@@ -347,6 +357,18 @@ function formatJCardUri( type, uri ) {
   }
   //else
   return uri;
+}
+
+function pushJCardAdr( data, v1, arrayOfStrings ) {
+  for( var i= 0; i < arrayOfStrings.length; i++ ) {
+    if( i == 0 ) {
+      data.push( [ "Address" + formatJCardType( v1 ), arrayOfStrings[ i ] ] );
+    }
+    else {
+      data.push( [ "", arrayOfStrings[ i ] ] );
+    }
+  }
+
 }
 
 function getObjectClass( data ) {
