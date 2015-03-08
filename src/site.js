@@ -273,8 +273,6 @@ var tsvFile = null;
 
 $(document).ready( function() {
 
-  $('#queryTypeRadios').hide();
-
   $('#queryform').submit( function() {
     clearDivs();
     var queryText = $('#queryText' ).val().trim();
@@ -284,14 +282,6 @@ $(document).ready( function() {
     doNewQuery( queryType.url( queryText ) );
     return false;
   } );
-
-  $('#forceQType').change( function() {
-    if($(this ).is(':checked') ) {
-      $('#queryTypeRadios').show();
-    } else {
-      $('#queryTypeRadios').hide();
-    }
-  });
 
   var q = getParam( "q" );
   if( q ) {

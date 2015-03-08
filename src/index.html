@@ -117,6 +117,73 @@
 
   </div>
 
+  <div class="modal fade" id="queryTypeModal" tabindex="-1" role="dialog" aria-labelledby="queryTypeModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="queryTypeModalLabel">Narrow Query Type</h4>
+              </div>
+              <div class="modal-body">
+                  <div id="queryTypeRadios">
+                      <div class="radio">
+                          <label>
+                              <input type="radio" name="optionsRadios" id="optionsIP" value="ip">
+                              IPv4 / IPv6 Address or Network in CIDR form
+                          </label>
+                      </div>
+                      <div class="radio">
+                          <label>
+                              <input type="radio" name="optionsRadios" id="optionsAutnum" value="Autnum">
+                              Autonomous System Number (a.k.a. "ASN", "autnum")
+                          </label>
+                      </div>
+                      <div class="radio">
+                          <label>
+                              <input type="radio" name="optionsRadios" id="optionsDomain" value="Domain" >
+                              Domain name or Reverse DNS Delegation
+                          </label>
+                      </div>
+                      <div class="radio">
+                          <label>
+                              <input type="radio" name="optionsRadios" id="optionsDomainSearch" value="Domain" >
+                              A Domain name search
+                          </label>
+                      </div>
+                      <div class="radio">
+                          <label>
+                              <input type="radio" name="optionsRadios" id="optionsNameserver" value="Nameserver" >
+                              Fully Qualified DNS Name of a Name Server
+                          </label>
+                      </div>
+                      <div class="radio">
+                          <label>
+                              <input type="radio" name="optionsRadios" id="optionsEntityHandle" value="EntityHandle">
+                              Handle or ID for an Entity (e.g. Contact, Organization, POC, Maintainer)
+                          </label>
+                      </div>
+                      <div class="radio">
+                          <label>
+                              <input type="radio" name="optionsRadios" id="optionsEntityName" value="EntityName" >
+                              Name of an Entity (e.g. Contact, Organization, POC, Maintainer)
+                          </label>
+                      </div>
+                      <div class="radio">
+                          <label>
+                              <input type="radio" name="optionsRadios" id="optionsRdapUrl" value="RdapUrl" >
+                              An RDAP URL
+                          </label>
+                      </div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
     <div class="container jumbotron" id="queryContainer">
       <h2>RDAP <small>Registration Data Access Protocol</small></h2>
       <form id="queryform">
@@ -129,61 +196,7 @@
                     Search for IP networks, domain names, AS numbers...
                 </small>
           <div class="form">
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" id="forceQType"> Force Query Type
-                </label>
-            </div>
-          <div id="queryTypeRadios">
-          <div class="radio">
-              <label>
-                  <input type="radio" name="optionsRadios" id="optionsIP" value="ip">
-                  IPv4 / IPv6 Address or Network in CIDR form
-              </label>
-          </div>
-          <div class="radio">
-              <label>
-                  <input type="radio" name="optionsRadios" id="optionsAutnum" value="Autnum">
-                  Autonomous System Number (a.k.a. "ASN", "autnum")
-              </label>
-          </div>
-          <div class="radio">
-              <label>
-                  <input type="radio" name="optionsRadios" id="optionsDomain" value="Domain" >
-                  Domain name or Reverse DNS Delegation
-              </label>
-          </div>
-          <div class="radio">
-              <label>
-                  <input type="radio" name="optionsRadios" id="optionsDomainSearch" value="Domain" >
-                  A Domain name search
-              </label>
-          </div>
-          <div class="radio">
-              <label>
-                  <input type="radio" name="optionsRadios" id="optionsNameserver" value="Nameserver" >
-                  Fully Qualified DNS Name of a Name Server
-              </label>
-          </div>
-          <div class="radio">
-              <label>
-                  <input type="radio" name="optionsRadios" id="optionsEntityHandle" value="EntityHandle">
-                  Handle or ID for an Entity (e.g. Contact, Organization, POC, Maintainer)
-              </label>
-          </div>
-          <div class="radio">
-              <label>
-                  <input type="radio" name="optionsRadios" id="optionsEntityName" value="EntityName" >
-                  Name of an Entity (e.g. Contact, Organization, POC, Maintainer)
-              </label>
-          </div>
-              <div class="radio">
-                  <label>
-                      <input type="radio" name="optionsRadios" id="optionsRdapUrl" value="RdapUrl" >
-                      An RDAP URL
-                  </label>
-              </div>
-          </div>
+          <a href="#" role="button" data-toggle="modal" data-target="#queryTypeModal">Narrow Query Type</a>
       </div>
       </form>
       <p id="external_links">
