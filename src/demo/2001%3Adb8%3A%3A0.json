@@ -183,7 +183,8 @@
                         {
                             "value":"http://example.net/entity/MATTR-ARIN",
                             "rel":"self",
-                            "href":"http://example.net/entity/MATTR-ARIN"
+                            "href":"http://example.net/entity/MATTR-ARIN",
+                            "type":"application/rdap+json"
                         }
                     ],
                     "events":[
@@ -204,7 +205,8 @@
                             {
                               "value":"http://example.ent/ip/2001:db8::/48",
                               "rel":"related",
-                              "href":"http://example.net/ip/2001:db8::/48"
+                              "href":"http://example.net/ip/2001:db8::/48",
+                              "type":"application/rdap+json"
                             }
                           ],
                             "eventAction":"last changed",
@@ -213,6 +215,7 @@
                     ]
                 },
                 {
+                    "objectClassName":"entity",
                     "handle":"MAK21-ARIN",
                     "vcardArray":[
                         "vcard",
@@ -271,7 +274,8 @@
                         {
                             "value":"http://example.net/entity/MAK21-ARIN",
                             "rel":"self",
-                            "href":"http://example.net/entity/MAK21-ARIN"
+                            "href":"http://example.net/entity/MAK21-ARIN",
+                            "type":"application/rdap+json"
                         }
                     ],
                     "events":[
@@ -292,7 +296,8 @@
                             {
                               "value":"http://example.ent/ip/2001:db8::/48",
                               "rel":"related",
-                              "href":"http://example.net/ip/2001:db8::/48"
+                              "href":"http://example.net/ip/2001:db8::/48",
+                              "type":"application/rdap+json"
                             }
                           ],
                             "eventAction":"reregistration",
