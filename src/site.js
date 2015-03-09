@@ -306,7 +306,7 @@ function getJQueryForLink( link ) {
     return $("<a>" ).text( link.href ).attr( "href", link.href );
   }
   else if( link.type == "application/rdap+json" ) {
-    return $("<a>" ).text( link.href ).attr( "href", window.location.href.split( 'q' )[ 0 ] + encodeURIComponent( link.href ) );
+    return $("<a>" ).text( link.href ).attr( "href", window.location.href.split( '?' )[ 0 ] + "?url=" + encodeURIComponent( link.href ) );
   }
   //else
   protocolMessages.push( "link to " + link.href + " has no given media type");
