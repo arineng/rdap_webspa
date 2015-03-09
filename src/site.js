@@ -279,7 +279,21 @@ $(document).ready( function() {
     var queryType = getQueryType(queryText);
     prepareForNewQuery( queryText, queryType.description );
     makeProgressBarDiv();
-    doNewQuery( queryType.url( queryText ) );
+    var url;
+    if( demoMode ) {
+      protocolMessages.push( "DEMO MODE" );
+      if( DEMO_QUERIES.indexOf( queryText.trim() ) != -1 ) {
+        //we double encode because the files are encoded on the file system
+        url = "demo/" + encodeURIComponent( encodeURIComponent( queryText.trim() ) ) + ".json";
+      }
+      else {
+        url = queryType.url( queryText );
+      }
+    }
+    else {
+      url = queryType.url( queryText );
+    }
+    doNewQuery( url );
     return false;
   } );
 

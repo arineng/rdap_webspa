@@ -391,7 +391,12 @@ function makeTsvData() {
   return [ "line1", "line2" ];
 }
 
+DEMO_QUERIES = [
+  "2001:db8::0"
+];
+
 var protocolMessages = null;
+var demoMode = true;
 
 function prepareForNewQuery( queryText, queryTypeDescription )
 {
