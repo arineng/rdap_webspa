@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015. American Registry for Internet Numbers
+ * Copyright (c) 2015-2016 American Registry for Internet Numbers
  */
 
 /**
@@ -11,7 +11,7 @@
  * This is the Base URL of the location where queries will be sent.
  * Always make sure it ends in a '/' character.
  */
-BASEURL = "http://rdap.apnic.net/";
+BASEURL = "https://rdap.arin.net/bootstrap/";
 
 // IPv4 and IPv6 regular expressions are credited to Mike Poulson and are found here:
 //   http://blogs.msdn.com/b/mpoulson/archive/2005/01/10/350037.aspx
