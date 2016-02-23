@@ -1,4 +1,5 @@
 /**
+ * Copyright (C) 2015-2016 ARIN
  * These mostly exist to demonstrate how Grunt/Qunit testing works since
  * Javascript/JQuery unit testing doesn't seem to be much of a thing.
  * Created by andy on 1/28/15.

@@ -1,5 +1,6 @@
 /**
  *
+ * Copyright (C) 2015-2016 ARIN
  * Created by andy on 1/28/15.
  */
 module.exports = function ( grunt )

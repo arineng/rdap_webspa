@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015. Red Squirrel One
+ * Copyright (c) 2015. ARIN
  */
 
 /**
